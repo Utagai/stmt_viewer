@@ -1,22 +1,5 @@
-import { argv } from 'process';
 import { readFileSync } from 'fs';
 import parse from 'csv-parse/lib/sync';
-
-function getFilepath(): string {
-  // We expect 2 arguments for the node invocation, and then one more for the
-  // filepath.
-  const NUM_EXPECTED_ARGS = 3;
-
-  if (argv.length !== NUM_EXPECTED_ARGS) {
-    throw Error(
-      `expected 1 argument for the filepath, but received ${
-        argv.length - NUM_EXPECTED_ARGS + 1
-      } arguments`,
-    );
-  }
-
-  return argv[NUM_EXPECTED_ARGS - 1];
-}
 
 // This is a transaction that maps directly to the format of the CSV file we
 // read in. It is unprocessed and will eventually be converted to a
@@ -38,13 +21,17 @@ type unprocessedTxn = {
 // * Gets rid of columns in the CSV we do not care about (e.g. Memo).
 //
 // It is otherwise the same thing.
-export type processedTxn = {
+type processedTxn = {
   transactionDate: Date;
   postDate: Date;
   description: string;
   category: string;
   amount: number;
 };
+
+// Txn is a shorthand alias for a processed transaction. Consumers of this
+// module do not need to know about unprocessed vs. processed transactions.
+export type Txn = processedTxn;
 
 function processTxn(unprocessed: unprocessedTxn): processedTxn {
   return {
@@ -56,9 +43,8 @@ function processTxn(unprocessed: unprocessedTxn): processedTxn {
   };
 }
 
-export function loadTxns(): processedTxn[] {
-  const filepath = getFilepath();
-  const unparsedFileContents = readFileSync(filepath, 'utf8');
+export function parseTxns(csvFilepath: string): Txn[] {
+  const unparsedFileContents = readFileSync(csvFilepath, 'utf8');
   const rows: unprocessedTxn[] = parse(unparsedFileContents, {
     cast: true,
     cast_date: true,
