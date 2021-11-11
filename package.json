@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "Analyzes Chase transactions CSVs.",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "csv": "^5.5.3",
+    "csv-parse": "^4.16.3"
+  },
   "devDependencies": {
+    "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
     "eslint": "^8.2.0",
