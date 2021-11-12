@@ -1,4 +1,4 @@
-import { Txn } from './ParseTxns';
+import { Txn } from './Txn';
 
 type categoryToTotalAmount = { [category: string]: number };
 

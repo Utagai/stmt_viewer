@@ -1,6 +1,6 @@
 import { argv } from 'process';
 
-import { parseTxns, Txn } from './ParseTxns';
+import { parseTxns } from './Txn';
 import { sanitize, summarize } from './Aggregate';
 
 function getFilepath(): string {
