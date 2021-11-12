@@ -21,8 +21,8 @@ function getFilepath(): string {
 type categoryToTotalAmount = { [category: string]: number };
 
 type stats = {
-  maxAmount: number;
-  minAmount: number;
+  maxTxn: Txn;
+  minTxn: Txn;
   totalAmountPerCategory: categoryToTotalAmount;
   totalAmount: number;
   averageAmount: number;
@@ -110,8 +110,8 @@ function summarize(txns: Txn[]): stats {
   // below, but given how some of these involve non-trivial calculations, I
   // prefer to keep them separate for readability, and the rest follow for
   // consistency.
-  const minAmount = sortedTxns[0].amount;
-  const maxAmount = sortedTxns[sortedTxns.length - 1].amount;
+  const minTxn = sortedTxns[0];
+  const maxTxn = sortedTxns[sortedTxns.length - 1];
   const totalAmountPerCategory = sortedTxns.reduce((categoryToTotal, t) => {
     if (t.category in categoryToTotal) {
       return {
@@ -126,8 +126,8 @@ function summarize(txns: Txn[]): stats {
   const averageAmount = totalAmount / sortedTxns.length;
 
   return {
-    maxAmount,
-    minAmount,
+    maxTxn,
+    minTxn,
     totalAmountPerCategory,
     totalAmount,
     averageAmount,
