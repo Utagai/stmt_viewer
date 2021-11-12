@@ -2,7 +2,6 @@ import { stdout } from 'process';
 
 import { format } from 'date-fns';
 
-import { Txn } from './Txn';
 import { categoryStats, txnsStats } from './Stats';
 
 // Prints out a report to the terminal.
@@ -21,49 +20,19 @@ import { categoryStats, txnsStats } from './Stats';
 // And, for readability, we'd like to separate these sections with some kind of
 // very visible separator.
 export default function print(stats: txnsStats) {
-  printHeader('Summary');
-  alignedPrint(
-    [
-      ['Total Amount:', stats.totalAmount.toString()],
-      ['Number of transactions:', stats.txns.length.toString()],
-      ['Average Amount:', stats.averageAmount.toString()],
-      ['', ''],
-      ['Largest transaction:', ''],
-      ['Description:', stats.maxTxn.description],
-      // TODO: We should print this in a human friendly dollar format, e.g., $54.23.
-      // Meaning, we want the dollar sign, and want to always have 2 decimal places.
-      ['Amount:', stats.maxTxn.amount.toString()],
-      ['Category:', stats.maxTxn.category],
-      ['Date', dateToString(stats.maxTxn.transactionDate)],
-    ],
-    1,
-  );
-  printTopLevelSectionSeparator();
+  // All the transactions will be printed at the end instead of now.
+  printStats('All Transactions', stats);
+  printTopLevelSeparator();
 
   Object.keys(stats.statsPerCategory).forEach((category) => {
-    printCategoryStats(category, stats.statsPerCategory[category]);
+    printStats(category, stats.statsPerCategory[category]);
+    printTopLevelSeparator();
   });
-  printTopLevelSectionSeparator();
-
-  printHeader('All Transactions');
-
-  // TODO: This should also go to stderr so it can be re-routed, since it is
-  // extra verbosity.
-  alignedPrint(
-    stats.txns.map((txn) => [
-      txn.description,
-      txn.amount.toString(),
-      txn.category,
-      dateToString(txn.transactionDate),
-    ]),
-    1,
-  );
-  printTopLevelSectionSeparator();
 }
 
 // Prints out a subset of the category stats.
-function printCategoryStats(category: string, stats: categoryStats) {
-  printHeader(category);
+function printStats(header: string, stats: categoryStats) {
+  printHeader(header);
   alignedPrint(
     [
       ['Total Amount:', stats.totalAmount.toString()],
@@ -80,6 +49,7 @@ function printCategoryStats(category: string, stats: categoryStats) {
     ],
     1,
   );
+
   printBottomLevelSeparator();
   // TODO: This should go to stderr so it can be re-routed, since it is extra
   // verbosity.
@@ -92,7 +62,6 @@ function printCategoryStats(category: string, stats: categoryStats) {
     ]),
     1,
   );
-  printBottomLevelSeparator();
 }
 
 ///
@@ -146,7 +115,7 @@ function alignedPrint(lines: string[][], indent: number) {
 }
 
 // Prints a separator for use in separating sections.
-function printTopLevelSectionSeparator() {
+function printTopLevelSeparator() {
   const sectionSeparatorWidth = 80;
   const sectionSeparator = '='.repeat(sectionSeparatorWidth);
   stdout.write(`${sectionSeparator}\n`);
