@@ -1,8 +1,8 @@
 import { argv } from 'process';
-import { inspect } from 'util';
 
 import { parseTxns } from './Txn';
 import { sanitize, summarize } from './ProcessTxns';
+import print from './Print';
 
 function getFilepath(): string {
   // We expect 2 arguments for the node invocation, and then one more for the
@@ -23,13 +23,9 @@ function getFilepath(): string {
 function main() {
   const pathToPotentialCSVFile = getFilepath();
   const processedTxns = parseTxns(pathToPotentialCSVFile);
-  console.log(
-    inspect(summarize(sanitize(processedTxns)), {
-      showHidden: false,
-      depth: null,
-      colors: true,
-    }),
-  );
+  const sanitizedTxns = sanitize(processedTxns);
+  const txnsStats = summarize(sanitizedTxns);
+  print(txnsStats);
 }
 
 main();

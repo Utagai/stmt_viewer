@@ -21,6 +21,7 @@ type unprocessedTxn = {
 // * Gets rid of columns in the CSV we do not care about (e.g. Memo).
 //
 // It is otherwise the same thing.
+// TODO: remove postDate.
 type processedTxn = {
   transactionDate: Date;
   postDate: Date;

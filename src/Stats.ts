@@ -3,12 +3,14 @@ import { Txn } from './Txn';
 // categoryStats captures statistics for one particular category. As a result,
 // it stores no information about categories, since it only only works on
 // transactions that are all from the same category.
+// TODO: This is false technically, because really this is a stats over any
+// array of transactions, _ignoring_ category.
 export type categoryStats = {
   maxTxn: Txn;
   minTxn: Txn;
   totalAmount: number;
   averageAmount: number;
-  // txns: Txn[];
+  txns: Txn[];
 };
 
 export type categoryToTotalAmount = { [category: string]: categoryStats };
@@ -22,4 +24,5 @@ export type txnsStats = {
   statsPerCategory: categoryToTotalAmount;
   totalAmount: number;
   averageAmount: number;
+  txns: Txn[];
 };

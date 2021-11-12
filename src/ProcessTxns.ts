@@ -68,6 +68,7 @@ export function summarizeCategory(txns: Txn[]): categoryStats {
   // passed into this program are so small that performance is negligible (the
   // CSVs I have for my card transactions could literally fit entirely into my
   // CPU's L1 cache (AMD Ryzen 3700x)).
+  // TODO: We should sort in descending order for convenience.
   const sortedTxns = txns.sort((t1, t2) => {
     if (t1.amount > t2.amount) {
       return 1;
@@ -94,7 +95,7 @@ export function summarizeCategory(txns: Txn[]): categoryStats {
     minTxn,
     totalAmount,
     averageAmount,
-    // txns: sortedTxns,
+    txns: sortedTxns,
   };
 }
 
@@ -122,6 +123,7 @@ export function summarize(txns: Txn[]): txnsStats {
   const maxTxn = sortedTxns[sortedTxns.length - 1];
   const totalAmount = sortedTxns.reduce((sum, t) => sum + t.amount, 0);
   const averageAmount = totalAmount / sortedTxns.length;
+  // TODO: The code above this comment can be de-duplicated.
 
   // We want to group all the transactions into arrays of transactions for each
   // unique category. Then, we want to summarize the statistics per array of
@@ -148,5 +150,6 @@ export function summarize(txns: Txn[]): txnsStats {
     statsPerCategory,
     totalAmount,
     averageAmount,
+    txns: sortedTxns,
   };
 }

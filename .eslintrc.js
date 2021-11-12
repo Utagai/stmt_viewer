@@ -34,5 +34,6 @@ module.exports = {
       'error',
       { devDependencies: ['**/*.test.ts', '**/*.test.tsx'] },
     ],
+    'no-use-before-define': ['error', { functions: false }],
   },
 };
