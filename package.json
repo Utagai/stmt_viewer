@@ -1,7 +1,7 @@
 {
-  "name": "stmt_analyze",
+  "name": "stmt_viewer",
   "version": "1.0.0",
-  "description": "Analyzes Chase transactions CSVs.",
+  "description": "Views Chase transactions CSVs in a human-readable plaintext format.",
   "main": "index.js",
   "dependencies": {
     "csv": "^5.5.3",
@@ -25,7 +25,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "github.com/utagai/stmt_analyze"
+    "url": "github.com/utagai/stmt_viewer"
   },
   "author": "may",
   "license": "MIT"
