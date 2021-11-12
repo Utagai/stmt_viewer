@@ -1,5 +1,7 @@
 import { stdout } from 'process';
 
+import { format } from 'date-fns';
+
 import { Txn } from './Txn';
 import { categoryStats, txnsStats } from './Stats';
 
@@ -58,15 +60,21 @@ function printTransactionAcrossLines(txn: Txn) {
   printLabelAndValue('Amount', txn.amount);
   printLabelAndValue('Category', txn.category);
   // TODO: We should only print the date (not time).
-  printLabelAndValue('Date', txn.transactionDate);
+  printLabelAndValue('Date', dateToString(txn.transactionDate));
 }
 
 // Prints the transaction as a row, with all fields we care to print on one
 // line.
 function printTransactionAsRow(txn: Txn) {
   stdout.write(
-    `\t${txn.description}\t${txn.amount}\t${txn.category}\t${txn.transactionDate}\n`,
+    `\t${txn.description}\t${txn.amount}\t${txn.category}\t${dateToString(
+      txn.transactionDate,
+    )}\n`,
   );
+}
+
+function dateToString(d: Date) {
+  return format(d, 'E MMM dd RRRR');
 }
 
 // Prints out a subset of the category stats.
