@@ -26,6 +26,7 @@ type processedTxn = {
   postDate: Date;
   description: string;
   category: string;
+  type: string;
   amount: number;
 };
 
@@ -40,6 +41,7 @@ function processTxn(unprocessed: unprocessedTxn): processedTxn {
     postDate: unprocessed['Post Date'],
     description: unprocessed.Description,
     category: unprocessed.Category,
+    type: unprocessed.Type,
     amount: unprocessed.Amount,
   };
 }
