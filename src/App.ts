@@ -26,7 +26,6 @@ type stats = {
   totalAmountPerCategory: categoryToTotalAmount;
   totalAmount: number;
   averageAmount: number;
-  txns: Txn[];
 };
 
 function summarize(txns: Txn[]): stats {
@@ -74,7 +73,6 @@ function summarize(txns: Txn[]): stats {
     totalAmountPerCategory,
     totalAmount,
     averageAmount,
-    txns: sortedTxns,
   };
 }
 
