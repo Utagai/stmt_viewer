@@ -47,8 +47,6 @@ function printStats(header: string, stats: categoryStats) {
   );
 
   printBottomLevelSeparator();
-  // TODO: This should go to stderr so it can be re-routed, since it is extra
-  // verbosity.
   alignedPrint(
     stats.txns.map((txn) => [
       txn.description,
