@@ -27,10 +27,17 @@ export default function print(stats: txnsStats) {
       ['Total Amount:', stats.totalAmount.toString()],
       ['Number of transactions:', stats.txns.length.toString()],
       ['Average Amount:', stats.averageAmount.toString()],
+      ['', ''],
+      ['Largest transaction:', ''],
+      ['Description:', stats.maxTxn.description],
+      // TODO: We should print this in a human friendly dollar format, e.g., $54.23.
+      // Meaning, we want the dollar sign, and want to always have 2 decimal places.
+      ['Amount:', stats.maxTxn.amount.toString()],
+      ['Category:', stats.maxTxn.category],
+      ['Date', dateToString(stats.maxTxn.transactionDate)],
     ],
     1,
   );
-  printMinMaxTransaction(stats);
   printTopLevelSectionSeparator();
 
   Object.keys(stats.statsPerCategory).forEach((category) => {
@@ -54,36 +61,25 @@ export default function print(stats: txnsStats) {
   printTopLevelSectionSeparator();
 }
 
-function printMinMaxTransaction(stats: txnsStats) {
-  printHeader('Largest transaction');
-  printTransactionAcrossLines(stats.maxTxn);
-  printHeader('Smallest transaction');
-  printTransactionAcrossLines(stats.minTxn);
-}
-
-// Prints the transaction across lines, one for each field we care to print.
-function printTransactionAcrossLines(txn: Txn) {
-  alignedPrint(
-    [
-      ['Description:', txn.description],
-      // TODO: We should print this in a human friendly dollar format, e.g., $54.23.
-      // Meaning, we want the dollar sign, and want to always have 2 decimal places.
-      ['Amount:', txn.amount.toString()],
-      ['Category:', txn.category],
-      ['Date', dateToString(txn.transactionDate)],
-    ],
-    1,
-  );
-}
-
-function dateToString(d: Date) {
-  return format(d, 'E MMM dd RRRR');
-}
-
 // Prints out a subset of the category stats.
 function printCategoryStats(category: string, stats: categoryStats) {
   printHeader(category);
-  printTransactionAcrossLines(stats.maxTxn);
+  alignedPrint(
+    [
+      ['Total Amount:', stats.totalAmount.toString()],
+      ['Number of transactions:', stats.txns.length.toString()],
+      ['Average Amount:', stats.averageAmount.toString()],
+      ['', ''],
+      ['Largest transaction:', ''],
+      ['Description:', stats.maxTxn.description],
+      // TODO: We should print this in a human friendly dollar format, e.g., $54.23.
+      // Meaning, we want the dollar sign, and want to always have 2 decimal places.
+      ['Amount:', stats.maxTxn.amount.toString()],
+      ['Category:', stats.maxTxn.category],
+      ['Date', dateToString(stats.maxTxn.transactionDate)],
+    ],
+    1,
+  );
   printBottomLevelSeparator();
   // TODO: This should go to stderr so it can be re-routed, since it is extra
   // verbosity.
@@ -97,14 +93,6 @@ function printCategoryStats(category: string, stats: categoryStats) {
     1,
   );
   printBottomLevelSeparator();
-  // The alignment for this subsection should be a bit different.
-  alignedPrint(
-    [
-      ['Total Amount:', stats.totalAmount.toString()],
-      ['Average Amount:', stats.totalAmount.toString()],
-    ],
-    1,
-  );
 }
 
 ///
@@ -172,4 +160,8 @@ function printBottomLevelSeparator() {
 
 function printHeader(header: string) {
   stdout.write(`${header}:\n`);
+}
+
+function dateToString(d: Date) {
+  return format(d, 'E MMM dd RRRR');
 }

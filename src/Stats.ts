@@ -5,6 +5,7 @@ import { Txn } from './Txn';
 // transactions that are all from the same category.
 // TODO: This is false technically, because really this is a stats over any
 // array of transactions, _ignoring_ category.
+// TODO: I think we don't need the minimum txn, but we may want median.
 export type categoryStats = {
   maxTxn: Txn;
   minTxn: Txn;
