@@ -20,7 +20,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "tsc && node ./dist/app.js"
+    "start": "tsc && node ./dist/App.js"
   },
   "repository": {
     "type": "git",
