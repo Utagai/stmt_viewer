@@ -1,5 +1,6 @@
 import { readFileSync } from 'fs';
 import parse from 'csv-parse/lib/sync';
+import { parse as dateparse } from 'date-fns';
 
 // This is a transaction that maps directly to the format of the CSV file we
 // read in. It is unprocessed and will eventually be converted to a
@@ -50,7 +51,25 @@ function processTxn(unprocessed: unprocessedTxn): processedTxn {
 export function parseTxns(csvFilepath: string): Txn[] {
   const unparsedFileContents = readFileSync(csvFilepath, 'utf8');
   const rows: unprocessedTxn[] = parse(unparsedFileContents, {
-    cast: true,
+    cast: (value, context) => {
+      // Unfortunately we have to do this for cases where we have descriptions
+      // of the form (\w )+\d+. Not sure why, because if we don't csv-parse
+      // interprets it as a date. Don't ask.
+      if (context.column === 'Description') {
+        return value.toString();
+      }
+
+      // Of course, after we implement a custom cast function, returning just
+      // the value turns out _actual_ dates into strings. So here we are.
+      if (
+        context.column === 'Transaction Date' ||
+        context.column === 'Post Date'
+      ) {
+        return dateparse(value.toString(), 'MM/dd/yyyy', new Date());
+      }
+
+      return value;
+    },
     cast_date: true,
     columns: true,
     skip_empty_lines: true,
