@@ -31,6 +31,7 @@ type processedTxn = {
 
 // Txn is a shorthand alias for a processed transaction. Consumers of this
 // module do not need to know about unprocessed vs. processed transactions.
+// TODO: Probably better to just avoid the abbreviation and prefer 'Transaction'.
 export type Txn = processedTxn;
 
 function processTxn(unprocessed: unprocessedTxn): processedTxn {
