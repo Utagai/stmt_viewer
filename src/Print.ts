@@ -33,15 +33,13 @@ function printStats(header: string, stats: categoryStats) {
   printTopLevelSeparator(header);
   alignedPrint(
     [
-      ['Total Amount:', stats.totalAmount.toString()],
+      ['Total Amount:', amountToDollarString(stats.totalAmount)],
       ['Number of transactions:', stats.txns.length.toString()],
-      ['Average Amount:', stats.averageAmount.toString()],
+      ['Average Amount:', amountToDollarString(stats.averageAmount)],
       ['', ''], // Empty space.
       ['Largest transaction:', ''],
       ['Description:', stats.maxTxn.description],
-      // TODO: We should print this in a human friendly dollar format, e.g., $54.23.
-      // Meaning, we want the dollar sign, and want to always have 2 decimal places.
-      ['Amount:', stats.maxTxn.amount.toString()],
+      ['Amount:', amountToDollarString(stats.maxTxn.amount)],
       ['Category:', stats.maxTxn.category],
       ['Date', dateToString(stats.maxTxn.transactionDate)],
     ],
@@ -54,7 +52,7 @@ function printStats(header: string, stats: categoryStats) {
   alignedPrint(
     stats.txns.map((txn) => [
       txn.description,
-      txn.amount.toString(),
+      amountToDollarString(txn.amount),
       txn.category,
       dateToString(txn.transactionDate),
     ]),
@@ -114,7 +112,8 @@ function alignedPrint(lines: string[][], indent: number) {
 
 const sectionSeparatorWidth = 80;
 
-// Prints a separator for use in separating sections.
+// Prints a separator for use in separating sections. Separators are labeled
+// with a header.
 function printTopLevelSeparator(header: string) {
   // Add a space to the header because otherwise it'll look kinda of bad.
   // Adding it now and using paddedHeader in the rest of the function lets us
@@ -139,4 +138,11 @@ function printBottomLevelSeparator() {
 
 function dateToString(d: Date) {
   return format(d, 'E MMM dd RRRR');
+}
+
+function amountToDollarString(amount: number) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(amount);
 }
