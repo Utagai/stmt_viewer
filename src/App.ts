@@ -1,4 +1,5 @@
 import { argv } from 'process';
+import { inspect } from 'util';
 
 import { parseTxns } from './Txn';
 import { sanitize, summarize } from './ProcessTxns';
@@ -22,7 +23,13 @@ function getFilepath(): string {
 function main() {
   const pathToPotentialCSVFile = getFilepath();
   const processedTxns = parseTxns(pathToPotentialCSVFile);
-  console.log(summarize(sanitize(processedTxns)));
+  console.log(
+    inspect(summarize(sanitize(processedTxns)), {
+      showHidden: false,
+      depth: null,
+      colors: true,
+    }),
+  );
 }
 
 main();
