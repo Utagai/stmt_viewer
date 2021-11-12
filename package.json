@@ -1,7 +1,7 @@
 {
   "name": "stmt_viewer",
   "version": "1.0.0",
-  "description": "Views Chase transactions CSVs in a human-readable plaintext format.",
+  "description": "Prints Chase transactions CSVs in a human-readable plaintext format.",
   "main": "index.js",
   "dependencies": {
     "csv": "^5.5.3",
