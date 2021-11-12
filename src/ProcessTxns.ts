@@ -1,11 +1,25 @@
 import { Txn } from './Txn';
 
-type categoryToTotalAmount = { [category: string]: number };
-
-export type stats = {
+// categoryStats captures statistics for one particular category. As a result,
+// it stores no information about categories, since it only only works on
+// transactions that are all from the same category.
+type categoryStats = {
   maxTxn: Txn;
   minTxn: Txn;
-  totalAmountPerCategory: categoryToTotalAmount;
+  totalAmount: number;
+  averageAmount: number;
+  // txns: Txn[];
+};
+
+type categoryToTotalAmount = { [category: string]: categoryStats };
+
+// txnsStats captures statistics for a given set of transactions. It relies on
+// categoryStats to give a more in-depth view into transactions of a given
+// category.
+export type txnsStats = {
+  maxTxn: Txn;
+  minTxn: Txn;
+  statsPerCategory: categoryToTotalAmount;
   totalAmount: number;
   averageAmount: number;
 };
@@ -68,7 +82,7 @@ export function sanitize(txns: Txn[]): Txn[] {
   );
 }
 
-export function summarize(txns: Txn[]): stats {
+export function summarizeCategory(txns: Txn[]): categoryStats {
   // The code in this function prioritizes simplicity and readability over
   // performance, often computing values that could have been computed in a
   // single loop, over multiple ones via calls to e.g. `reduce()`. This is an
@@ -94,23 +108,66 @@ export function summarize(txns: Txn[]): stats {
   // consistency.
   const minTxn = sortedTxns[0];
   const maxTxn = sortedTxns[sortedTxns.length - 1];
-  const totalAmountPerCategory = sortedTxns.reduce((categoryToTotal, t) => {
-    if (t.category in categoryToTotal) {
-      return {
-        ...categoryToTotal,
-        [t.category]: categoryToTotal[t.category] + t.amount,
-      };
-    }
-
-    return { ...categoryToTotal, [t.category]: t.amount };
-  }, {} as categoryToTotalAmount);
   const totalAmount = sortedTxns.reduce((sum, t) => sum + t.amount, 0);
   const averageAmount = totalAmount / sortedTxns.length;
 
   return {
     maxTxn,
     minTxn,
-    totalAmountPerCategory,
+    totalAmount,
+    averageAmount,
+    // txns: sortedTxns,
+  };
+}
+
+export function summarize(txns: Txn[]): txnsStats {
+  // The code in this function prioritizes simplicity and readability over
+  // performance, often computing values that could have been computed in a
+  // single loop, over multiple ones via calls to e.g. `reduce()`. This is an
+  // acceptable tradeoff because the sizes of statement CSVs that will ever be
+  // passed into this program are so small that performance is negligible (the
+  // CSVs I have for my card transactions could literally fit entirely into my
+  // CPU's L1 cache (AMD Ryzen 3700x)).
+  const sortedTxns = txns.sort((t1, t2) => {
+    if (t1.amount > t2.amount) {
+      return 1;
+    }
+
+    if (t1.amount < t2.amount) {
+      return -1;
+    }
+
+    return 0;
+  });
+
+  const minTxn = sortedTxns[0];
+  const maxTxn = sortedTxns[sortedTxns.length - 1];
+  const totalAmount = sortedTxns.reduce((sum, t) => sum + t.amount, 0);
+  const averageAmount = totalAmount / sortedTxns.length;
+
+  // We want to group all the transactions into arrays of transactions for each
+  // unique category. Then, we want to summarize the statistics per array of
+  // transactions and return an object that maps each category to its summary
+  // statistics.
+  const txnsPerCategory = sortedTxns.reduce((categoryToTotal, t) => {
+    if (t.category in categoryToTotal) {
+      return {
+        ...categoryToTotal,
+        [t.category]: categoryToTotal[t.category].concat([t]),
+      };
+    }
+
+    return { ...categoryToTotal, [t.category]: [t] };
+  }, {} as { [category: string]: Txn[] });
+  const statsPerCategory: categoryToTotalAmount = {};
+  Object.keys(txnsPerCategory).forEach((key) => {
+    statsPerCategory[key] = summarizeCategory(txnsPerCategory[key]);
+  });
+
+  return {
+    maxTxn,
+    minTxn,
+    statsPerCategory,
     totalAmount,
     averageAmount,
   };
