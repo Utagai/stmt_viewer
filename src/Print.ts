@@ -22,23 +22,21 @@ import { categoryStats, txnsStats } from './Stats';
 export default function print(stats: txnsStats) {
   // All the transactions will be printed at the end instead of now.
   printStats('All Transactions', stats);
-  printTopLevelSeparator();
 
   Object.keys(stats.statsPerCategory).forEach((category) => {
     printStats(category, stats.statsPerCategory[category]);
-    printTopLevelSeparator();
   });
 }
 
 // Prints out a subset of the category stats.
 function printStats(header: string, stats: categoryStats) {
-  printHeader(header);
+  printTopLevelSeparator(header);
   alignedPrint(
     [
       ['Total Amount:', stats.totalAmount.toString()],
       ['Number of transactions:', stats.txns.length.toString()],
       ['Average Amount:', stats.averageAmount.toString()],
-      ['', ''],
+      ['', ''], // Empty space.
       ['Largest transaction:', ''],
       ['Description:', stats.maxTxn.description],
       // TODO: We should print this in a human friendly dollar format, e.g., $54.23.
@@ -114,21 +112,29 @@ function alignedPrint(lines: string[][], indent: number) {
   });
 }
 
+const sectionSeparatorWidth = 80;
+
 // Prints a separator for use in separating sections.
-function printTopLevelSeparator() {
-  const sectionSeparatorWidth = 80;
-  const sectionSeparator = '='.repeat(sectionSeparatorWidth);
-  stdout.write(`${sectionSeparator}\n`);
+function printTopLevelSeparator(header: string) {
+  // Add a space to the header because otherwise it'll look kinda of bad.
+  // Adding it now and using paddedHeader in the rest of the function lets us
+  // avoid having to add in random/ugly -1/+1's.
+  const paddedHeader = `${header} `;
+  if (paddedHeader.length >= sectionSeparatorWidth) {
+    throw Error(
+      `header with padding cannot be longer than the separator width (${sectionSeparatorWidth})`,
+    );
+  }
+  const sectionSeparator = '='.repeat(
+    sectionSeparatorWidth - paddedHeader.length,
+  );
+  stdout.write(`${paddedHeader}${sectionSeparator}\n`);
 }
 
 // Prints a separator for use in separator parts of a section.
 function printBottomLevelSeparator() {
   const sectionSeparator = '-'.repeat(5);
   stdout.write(`\t${sectionSeparator}\n`);
-}
-
-function printHeader(header: string) {
-  stdout.write(`${header}:\n`);
 }
 
 function dateToString(d: Date) {
