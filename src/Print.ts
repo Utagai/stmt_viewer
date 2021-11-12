@@ -34,7 +34,6 @@ export default function print(stats: txnsStats) {
   printLabelAndValue('Total Amount', stats.totalAmount);
   printLabelAndValue('Average Amount', stats.averageAmount);
   printBottomLevelSeparator();
-  printSectionSeparator();
 
   // TODO: This should also go to stderr so it can be re-routed, since it is
   // extra verbosity.
