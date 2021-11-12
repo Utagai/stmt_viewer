@@ -21,24 +21,24 @@ import { categoryStats, txnsStats } from './Stats';
 // And, for readability, we'd like to separate these sections with some kind of
 // very visible separator.
 export default function print(stats: txnsStats) {
-  printMinMaxTransaction(stats);
-  printSectionSeparator();
-
-  Object.keys(stats.statsPerCategory).forEach((category) => {
-    printCategoryStats(category, stats.statsPerCategory[category]);
-  });
-  printSectionSeparator();
-
-  printHeader('All Transactions');
+  printHeader('Summary');
   alignedPrint(
     [
-      ['Number of transactions:', stats.txns.length.toString()],
       ['Total Amount:', stats.totalAmount.toString()],
+      ['Number of transactions:', stats.txns.length.toString()],
       ['Average Amount:', stats.averageAmount.toString()],
     ],
     1,
   );
-  printBottomLevelSeparator();
+  printMinMaxTransaction(stats);
+  printTopLevelSectionSeparator();
+
+  Object.keys(stats.statsPerCategory).forEach((category) => {
+    printCategoryStats(category, stats.statsPerCategory[category]);
+  });
+  printTopLevelSectionSeparator();
+
+  printHeader('All Transactions');
 
   // TODO: This should also go to stderr so it can be re-routed, since it is
   // extra verbosity.
@@ -51,7 +51,7 @@ export default function print(stats: txnsStats) {
     ]),
     1,
   );
-  printSectionSeparator();
+  printTopLevelSectionSeparator();
 }
 
 function printMinMaxTransaction(stats: txnsStats) {
@@ -158,8 +158,9 @@ function alignedPrint(lines: string[][], indent: number) {
 }
 
 // Prints a separator for use in separating sections.
-function printSectionSeparator() {
-  const sectionSeparator = '='.repeat(80);
+function printTopLevelSectionSeparator() {
+  const sectionSeparatorWidth = 80;
+  const sectionSeparator = '='.repeat(sectionSeparatorWidth);
   stdout.write(`${sectionSeparator}\n`);
 }
 
