@@ -1,7 +1,7 @@
 import { argv } from 'process';
 
 import { parseTxns } from './Txn';
-import { sanitize, summarize } from './Aggregate';
+import { sanitize, summarize } from './ProcessTxns';
 
 function getFilepath(): string {
   // We expect 2 arguments for the node invocation, and then one more for the
