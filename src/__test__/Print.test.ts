@@ -40,7 +40,9 @@ describe('printing', () => {
 
     const writable = new WritableStream();
     print(writable, [txnStats, categoryStats]);
-    const expectedOutput = readFileSync('./testdata/expected_print_output.txt');
+    const expectedOutput = readFileSync(
+      './src/__test__/testdata/expected_print_output.txt',
+    );
     expect(writable.toString()).toEqual(expectedOutput.toString());
   });
 });
