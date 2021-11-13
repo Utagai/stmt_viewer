@@ -59,6 +59,10 @@ export function parseTxns(csvFilepath: string): Transaction[] {
         return dateparse(value.toString(), 'MM/dd/yyyy', new Date());
       }
 
+      if (context.column === 'Amount') {
+        return parseFloat(value);
+      }
+
       return value;
     },
     cast_date: true,
