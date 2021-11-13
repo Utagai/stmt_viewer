@@ -1,0 +1,39 @@
+All Transactions ===============================================================
+	Total Amount:          		$6.00          	
+	Number of transactions:		3              	
+	Average Amount:        		$3.00          	
+	                       		               	
+	Largest transaction:   		               	
+	Description:           		first          	
+	Amount:                		$3.00          	
+	Category:              		1              	
+	Date                   		Sat Nov 13 2021	
+	-----
+	first 		$3.00		1		Sat Nov 13 2021	
+	second		$2.00		1		Sat Nov 13 2021	
+	third 		$1.00		2		Sat Nov 13 2021	
+1 ==============================================================================
+	Total Amount:          		$5.00          	
+	Number of transactions:		2              	
+	Average Amount:        		$2.50          	
+	                       		               	
+	Largest transaction:   		               	
+	Description:           		first          	
+	Amount:                		$3.00          	
+	Category:              		1              	
+	Date                   		Sat Nov 13 2021	
+	-----
+	first 		$3.00		1		Sat Nov 13 2021	
+	second		$2.00		1		Sat Nov 13 2021	
+2 ==============================================================================
+	Total Amount:          		$1.00          	
+	Number of transactions:		1              	
+	Average Amount:        		$1.00          	
+	                       		               	
+	Largest transaction:   		               	
+	Description:           		first          	
+	Amount:                		$3.00          	
+	Category:              		1              	
+	Date                   		Sat Nov 13 2021	
+	-----
+	third		$1.00		2		Sat Nov 13 2021	
