@@ -6,20 +6,6 @@ import chalk from 'chalk';
 import { CategoryStats, TransactionsStats } from './Stats';
 
 // Prints out a report to the terminal.
-// In particular, we want to print out these things in the listed order:
-//
-// * Max/min transaction
-// * Per category:
-//  * Total amount per category
-//  * Average amount per category
-//  * Max transaction per category
-// * Total amount
-// * Average amount
-// * All transactions per category, sorted from highest to lowest.
-// * All transactions, sorted from highest to lowest.
-//
-// And, for readability, we'd like to separate these sections with some kind of
-// very visible separator.
 export default function print(
   out: Writable,
   [stats, categoryStats]: [TransactionsStats, CategoryStats],
@@ -31,7 +17,7 @@ export default function print(
   });
 }
 
-// Prints out the stats in a human-readable format. See docs for print().
+// Prints out the stats in a human-readable format.
 function printStats(out: Writable, header: string, stats: TransactionsStats) {
   printTopLevelSeparator(out, header);
   alignedPrint(
