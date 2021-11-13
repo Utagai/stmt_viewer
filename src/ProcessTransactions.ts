@@ -57,6 +57,11 @@ export function sanitize(txns: Transaction[]): Transaction[] {
 }
 
 function summarizeTransactions(txns: Transaction[]): TransactionsStats {
+  if (txns.length === 0) {
+    // This whole program exists to summarize and report transactions... if we
+    // don't have any, why are we ever here?
+    throw Error('no transactions to summarize');
+  }
   // The code in this function prioritizes simplicity and readability over
   // performance, often computing values that could have been computed in a
   // single loop, over multiple ones via calls to e.g. `reduce()`. This is an
