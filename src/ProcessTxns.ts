@@ -1,4 +1,4 @@
-import { Transaction } from './Txn';
+import { Transaction } from './Transaction';
 import { TransactionsStats, CategoryStats } from './Stats';
 
 export function sanitize(txns: Transaction[]): Transaction[] {

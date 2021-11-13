@@ -1,6 +1,6 @@
 import { argv } from 'process';
 
-import { parseTxns } from './Txn';
+import { parseTxns } from './Transaction';
 import { sanitize, summarize } from './ProcessTxns';
 import print from './Print';
 

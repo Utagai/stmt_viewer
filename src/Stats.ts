@@ -1,4 +1,4 @@
-import { Transaction } from './Txn';
+import { Transaction } from './Transaction';
 
 // Captures statistics for a set of transactions without any respect to
 // category. As a result, it stores no information about categories.
