@@ -1,3 +1,4 @@
+import 'process';
 import { readFileSync } from 'fs';
 
 import { WritableStream } from 'memory-streams';
@@ -7,7 +8,7 @@ import print from '../Print';
 import TxnBuilder from './TxnBuilder';
 
 describe('printing', () => {
-  test('works', () => {
+  test('works correctly', () => {
     const txns = [
       new TxnBuilder().description('first').amount(3).category('1').processed(),
       new TxnBuilder()
@@ -40,6 +41,13 @@ describe('printing', () => {
 
     const writable = new WritableStream();
     print(writable, [txnStats, categoryStats]);
+    // NOTE: This file contains color escape codes.
+    // When actually using this program in the terminal, output redirection is
+    // correctly detected by chalk and color is disabled, but for the tests, we
+    // output color because we are just invoking the function, not the program
+    // from the shell. This is actually good, we'd like to verify that the
+    // colors are correct too, though it does make the test brittle to changes
+    // in Chalk. That said, I expect Chalk to be quite stable, given what it is.
     const expectedOutput = readFileSync(
       './src/__test__/testdata/Print/expected_output.txt',
     );

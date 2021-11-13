@@ -1,39 +1,39 @@
-All Transactions ===============================================================
-	Total Amount:          		$6.00          	
-	Number of transactions:		3              	
-	Average Amount:        		$3.00          	
-	                       		               	
-	Largest transaction:   		               	
-	Description:           		first          	
-	Amount:                		$3.00          	
-	Category:              		1              	
-	Date                   		Sat Nov 13 2021	
-	-----
-	first 		$3.00		1		Sat Nov 13 2021	
-	second		$2.00		1		Sat Nov 13 2021	
-	third 		$1.00		2		Sat Nov 13 2021	
-1 ==============================================================================
-	Total Amount:          		$5.00          	
-	Number of transactions:		2              	
-	Average Amount:        		$2.50          	
-	                       		               	
-	Largest transaction:   		               	
-	Description:           		first          	
-	Amount:                		$3.00          	
-	Category:              		1              	
-	Date                   		Sat Nov 13 2021	
-	-----
-	first 		$3.00		1		Sat Nov 13 2021	
-	second		$2.00		1		Sat Nov 13 2021	
-2 ==============================================================================
-	Total Amount:          		$1.00          	
-	Number of transactions:		1              	
-	Average Amount:        		$1.00          	
-	                       		               	
-	Largest transaction:   		               	
-	Description:           		first          	
-	Amount:                		$3.00          	
-	Category:              		1              	
-	Date                   		Sat Nov 13 2021	
-	-----
-	third		$1.00		2		Sat Nov 13 2021	
+[100m[4mAll Transactions[24m                                                                           [49m
+[100m[49m	[4mTotal Amount:[24m          		[95m$6.00[39m          	
+	[4mNumber of transactions:[24m		[2m[95m3[39m[22m     	
+	[4mAverage Amount:[24m        		[2m[95m$3.00[39m[22m 	
+	                                		                         	
+	[100mLargest transaction:[49m 		                         	
+	[4mAmount:[24m                		[95m$3.00[39m          	
+	[4mDescription:[24m           		[32mfirst[39m          	
+	[4mCategory:[24m              		[32m1[39m              	
+	[4mDate[24m                   		[32mSat Nov 13 2021[39m	
+	──────────────────────────────────────────────────
+	[2m[32mfirst[39m[22m 		[2m[95m$3.00[39m[22m		[2m[32m1[39m[22m		[2m[32mSat Nov 13 2021[39m[22m	
+	[2m[32msecond[39m[22m		[2m[95m$2.00[39m[22m		[2m[32m1[39m[22m		[2m[32mSat Nov 13 2021[39m[22m	
+	[2m[32mthird[39m[22m 		[2m[95m$1.00[39m[22m		[2m[32m2[39m[22m		[2m[32mSat Nov 13 2021[39m[22m	
+[100m[4m1[24m                                                                                          [49m
+[100m[49m	[4mTotal Amount:[24m          		[95m$5.00[39m          	
+	[4mNumber of transactions:[24m		[2m[95m2[39m[22m     	
+	[4mAverage Amount:[24m        		[2m[95m$2.50[39m[22m 	
+	                                		                         	
+	[100mLargest transaction:[49m 		                         	
+	[4mAmount:[24m                		[95m$3.00[39m          	
+	[4mDescription:[24m           		[32mfirst[39m          	
+	[4mCategory:[24m              		[32m1[39m              	
+	[4mDate[24m                   		[32mSat Nov 13 2021[39m	
+	──────────────────────────────────────────────────
+	[2m[32mfirst[39m[22m 		[2m[95m$3.00[39m[22m		[2m[32m1[39m[22m		[2m[32mSat Nov 13 2021[39m[22m	
+	[2m[32msecond[39m[22m		[2m[95m$2.00[39m[22m		[2m[32m1[39m[22m		[2m[32mSat Nov 13 2021[39m[22m	
+[100m[4m2[24m                                                                                          [49m
+[100m[49m	[4mTotal Amount:[24m          		[95m$1.00[39m          	
+	[4mNumber of transactions:[24m		[2m[95m1[39m[22m     	
+	[4mAverage Amount:[24m        		[2m[95m$1.00[39m[22m 	
+	                                		                         	
+	[100mLargest transaction:[49m 		                         	
+	[4mAmount:[24m                		[95m$3.00[39m          	
+	[4mDescription:[24m           		[32mfirst[39m          	
+	[4mCategory:[24m              		[32m1[39m              	
+	[4mDate[24m                   		[32mSat Nov 13 2021[39m	
+	──────────────────────────────────────────────────
+	[2m[32mthird[39m[22m		[2m[95m$1.00[39m[22m		[2m[32m2[39m[22m		[2m[32mSat Nov 13 2021[39m[22m	
