@@ -69,7 +69,7 @@ function summarizeTransactions(txns: Transaction[]): TransactionsStats {
   // passed into this program are so small that performance is negligible (the
   // CSVs I have for my card transactions could literally fit entirely into my
   // CPU's L1 cache (AMD Ryzen 3700x)).
-  const sortedTxns = txns.sort((t1, t2) => {
+  const sortedTxns = [...txns].sort((t1, t2) => {
     if (t1.amount > t2.amount) {
       return -1;
     }
