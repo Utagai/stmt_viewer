@@ -70,6 +70,7 @@ function printStats(out: Writable, header: string, stats: TransactionsStats) {
 ///
 
 const topLevelSeparatorWidth = 100;
+const topLevelSeparator = ' '.repeat(topLevelSeparatorWidth);
 const bottomLevelSeparatorWidth = 50;
 const bottomLevelSeparator = '─'.repeat(bottomLevelSeparatorWidth);
 
@@ -123,19 +124,12 @@ function alignedPrint(out: Writable, lines: string[][], indent: number) {
 // with a header. These are always not indented since they separate sections
 // themselves.
 function printTopLevelSeparator(out: Writable, header: string) {
-  // Add a space to the header because otherwise it'll look kinda of bad.
-  // Adding it now and using paddedHeader in the rest of the function lets us
-  // avoid having to add in random/ugly -1/+1's.
-  const paddedHeader = `${chalk.underline(header)} `;
-  if (paddedHeader.length >= topLevelSeparatorWidth) {
+  if (header.length >= topLevelSeparatorWidth) {
     throw Error(
-      `header with padding cannot be longer than the separator width (${topLevelSeparatorWidth})`,
+      `header cannot be longer than the separator width (${topLevelSeparatorWidth})`,
     );
   }
-  const topLevelSeparator = ' '.repeat(
-    topLevelSeparatorWidth - paddedHeader.length,
-  );
-  out.write(chalk.bgGray(`${paddedHeader}${topLevelSeparator}\n`));
+  out.write(chalk.bgGray(`${chalk.underline(header)}${topLevelSeparator}\n`));
 }
 
 // Prints a separator for use separating _within_ sections. These are always

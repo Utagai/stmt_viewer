@@ -8,11 +8,9 @@ describe('e2e', () => {
   test('prints correct report without error', (done) => {
     exec(
       'npm run start -- ./src/__test__/testdata/E2E/test.csv',
-      (error, stdout, stderr) => {
+      (error, stdout, _) => {
         try {
           expect(error).toBeFalsy();
-
-          expect(stderr).toBeFalsy();
 
           // NOTE: This file contains color escape codes.
           // When actually using this program in the terminal, output redirection is

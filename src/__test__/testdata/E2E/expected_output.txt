@@ -1,8 +1,12 @@
 
 > stmt_viewer@1.0.0 start /home/may/code/stmt_viewer
-> tsc && node ./dist/App.js "./src/__test__/testdata/E2E/test.csv"
+> npm run build && node ./dist/App.js "./src/__test__/testdata/E2E/test.csv"
 
-[100m[4mAll Transactions[24m                                                                           [49m
+
+> stmt_viewer@1.0.0 build /home/may/code/stmt_viewer
+> esbuild src/App.ts --platform=node --bundle --outfile=dist/App.js
+
+[100m[4mAll Transactions[24m                                                                                                    [49m
 [100m[49m	[4mTotal Amount:[24m          		[95m$243.70[39m        	
 	[4mNumber of transactions:[24m		[2m[95m5[39m[22m     	
 	[4mAverage Amount:[24m        		[2m[95m$48.74[39m[22m	
@@ -18,7 +22,7 @@
 	[2m[32mDESCRIPTION 4[39m[22m		[2m[95m$23.12[39m[22m 		[2m[32mCATEGORY 2[39m[22m		[2m[32mFri Nov 05 2021[39m[22m	
 	[2m[32mDESCRIPTION 2[39m[22m		[2m[95m$10.49[39m[22m 		[2m[32mCATEGORY 2[39m[22m		[2m[32mFri Nov 05 2021[39m[22m	
 	[2m[32mDESCRIPTION 1[39m[22m		[2m[95m$7.50[39m[22m  		[2m[32mCATEGORY 1[39m[22m		[2m[32mSat Nov 06 2021[39m[22m	
-[100m[4mCATEGORY 3[24m                                                                                 [49m
+[100m[4mCATEGORY 3[24m                                                                                                    [49m
 [100m[49m	[4mTotal Amount:[24m          		[95m$102.48[39m         	
 	[4mNumber of transactions:[24m		[2m[95m1[39m[22m      	
 	[4mAverage Amount:[24m        		[2m[95m$102.48[39m[22m	
@@ -30,7 +34,7 @@
 	[4mDate[24m                   		[32mFri Nov 05 2021[39m 	
 	──────────────────────────────────────────────────
 	[2m[32mDESCRIPTION 5[39m[22m		[2m[95m$102.48[39m[22m		[2m[32mCATEGORY 3[39m[22m		[2m[32mFri Nov 05 2021[39m[22m	
-[100m[4mCATEGORY 1[24m                                                                                 [49m
+[100m[4mCATEGORY 1[24m                                                                                                    [49m
 [100m[49m	[4mTotal Amount:[24m          		[95m$107.61[39m        	
 	[4mNumber of transactions:[24m		[2m[95m2[39m[22m     	
 	[4mAverage Amount:[24m        		[2m[95m$53.81[39m[22m	
@@ -43,7 +47,7 @@
 	──────────────────────────────────────────────────
 	[2m[32mDESCRIPTION 3[39m[22m		[2m[95m$100.11[39m[22m		[2m[32mCATEGORY 1[39m[22m		[2m[32mFri Nov 05 2021[39m[22m	
 	[2m[32mDESCRIPTION 1[39m[22m		[2m[95m$7.50[39m[22m  		[2m[32mCATEGORY 1[39m[22m		[2m[32mSat Nov 06 2021[39m[22m	
-[100m[4mCATEGORY 2[24m                                                                                 [49m
+[100m[4mCATEGORY 2[24m                                                                                                    [49m
 [100m[49m	[4mTotal Amount:[24m          		[95m$33.61[39m         	
 	[4mNumber of transactions:[24m		[2m[95m2[39m[22m     	
 	[4mAverage Amount:[24m        		[2m[95m$16.81[39m[22m	
