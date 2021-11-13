@@ -1,6 +1,20 @@
 import { Transaction } from './Transaction';
 import { TransactionsStats, CategoryStats } from './Stats';
 
+// NOTE: This is obviously tailored to my needs. For example, if you own a
+// car, converting 'Gas' into 'Convenience' may be the last thing you
+// want. I don't own a car, so my 'Gas' expenditures are actually
+// (strangely) always trips to 7/11 for a late night snack.
+export const categoryRemaps: { [oldCategory: string]: string } = {
+  'Health & Wellness': 'Convenience',
+  Gas: 'Convenience',
+  'Bills & Utilities': 'Bills',
+  'Food & Drink': 'Restaurant',
+  Entertainment: 'Shopping',
+  'Gifts & Donations': 'Donations',
+  Home: 'Shopping',
+};
+
 export function sanitize(txns: Transaction[]): Transaction[] {
   return (
     txns
@@ -13,37 +27,13 @@ export function sanitize(txns: Transaction[]): Transaction[] {
       }))
       // Convert certain categories to more readable versions, or merge some
       // together.
-      // NOTE: This is obviously tailored to my needs. For example, if you own a
-      // car, converting 'Gas' into 'Convenience' may be the last thing you
-      // want. I don't own a car, so my 'Gas' expenditures are actually
-      // (strangely) always trips to 7/11 for a late night snack.
       .map((txn) => {
         const { category } = txn;
-        let newCategoryName = category;
-        switch (category) {
-          case 'Health & Wellness':
-          case 'Gas':
-            newCategoryName = 'Convenience';
-            break;
-          case 'Bills & Utilities':
-            newCategoryName = 'Bills';
-            break;
-          case 'Food & Drink':
-            newCategoryName = 'Restaurant';
-            break;
-          case 'Entertainment':
-            newCategoryName = 'Shopping';
-            break;
-          case 'Gifts & Donations':
-            newCategoryName = 'Donations';
-            break;
-          case 'Home':
-            newCategoryName = 'Shopping';
-            break;
-          default:
+        if (category in categoryRemaps) {
+          return { ...txn, category: categoryRemaps[category] };
         }
 
-        return { ...txn, category: newCategoryName };
+        return txn;
       })
       // Identify costs from my subscriptions and put them into the bills
       // category.
@@ -60,7 +50,7 @@ export function sanitize(txns: Transaction[]): Transaction[] {
   );
 }
 
-export function summarizeTransactions(txns: Transaction[]): TransactionsStats {
+function summarizeTransactions(txns: Transaction[]): TransactionsStats {
   // The code in this function prioritizes simplicity and readability over
   // performance, often computing values that could have been computed in a
   // single loop, over multiple ones via calls to e.g. `reduce()`. This is an
