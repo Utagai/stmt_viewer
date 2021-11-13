@@ -2,7 +2,7 @@ import { stdout } from 'process';
 
 import { format } from 'date-fns';
 
-import { categoryStats, txnsStats } from './Stats';
+import { CategoryStats, TxnsStats } from './Stats';
 
 // Prints out a report to the terminal.
 // In particular, we want to print out these things in the listed order:
@@ -19,8 +19,9 @@ import { categoryStats, txnsStats } from './Stats';
 //
 // And, for readability, we'd like to separate these sections with some kind of
 // very visible separator.
-export default function print(stats: txnsStats) {
+export default function print(stats: TxnsStats) {
   // All the transactions will be printed at the end instead of now.
+  // TODO: The comment above is false.
   printStats('All Transactions', stats);
 
   Object.keys(stats.statsPerCategory).forEach((category) => {
@@ -29,7 +30,9 @@ export default function print(stats: txnsStats) {
 }
 
 // Prints out a subset of the category stats.
-function printStats(header: string, stats: categoryStats) {
+// TODO: Update this comment and maybe add note about categoryStats being a
+// subste of txnsStats...
+function printStats(header: string, stats: CategoryStats) {
   printTopLevelSeparator(header);
   alignedPrint(
     [
