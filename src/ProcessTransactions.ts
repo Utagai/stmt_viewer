@@ -15,8 +15,16 @@ export const categoryRemaps: { [oldCategory: string]: string } = {
   Home: 'Shopping',
 };
 
+export const subscriptionDescriptions = [
+  'INKDROP',
+  'HELP.HBOMAX.COM',
+  'GITHUB',
+];
+
 export function sanitize(txns: Transaction[]): Transaction[] {
   return (
+    // TODO: This is a great example of a place where proper function names will
+    // do a better job at documenting this code than our comments.
     txns
       // Remove payments which aren't purchases but me paying off balances, etc.
       .filter((txn) => txn.type !== 'Payment')
@@ -36,16 +44,14 @@ export function sanitize(txns: Transaction[]): Transaction[] {
         return txn;
       })
       // Identify costs from my subscriptions and put them into the bills
-      // category.
+      // category, because not all the subscriptions I pay for set the category
+      // to Bills & Utilities.
       .map((txn) => {
-        switch (txn.description) {
-          case 'INKDROP':
-          case 'HELP.HBOMAX.COM':
-          case 'GITHUB':
-            return { ...txn, category: 'Bills' };
-          default:
-            return txn;
+        if (subscriptionDescriptions.includes(txn.description)) {
+          return { ...txn, category: 'Bills' };
         }
+
+        return txn;
       })
   );
 }
