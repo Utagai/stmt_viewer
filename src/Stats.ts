@@ -1,29 +1,14 @@
 import { Transaction } from './Txn';
 
-// categoryStats captures statistics for one particular category. As a result,
-// it stores no information about categories, since it only only works on
-// transactions that are all from the same category.
-// TODO: This is false technically, because really this is a stats over any
-// array of transactions, _ignoring_ category.
+// Captures statistics for a set of transactions without any respect to
+// category. As a result, it stores no information about categories.
 // TODO: I think we don't need the minimum transaction, but we may want median.
-export type CategoryStats = {
-  maxTxn: Transaction;
-  minTxn: Transaction;
-  totalAmount: number;
-  averageAmount: number;
-  transactions: Transaction[];
-};
-
-export type CategoryToTotalAmount = { [category: string]: CategoryStats };
-
-// transactionsStats captures statistics for a given set of transactions. It
-// relies on categoryStats to give a more in-depth view into transactions of a
-// given category.
 export type TransactionsStats = {
   maxTxn: Transaction;
   minTxn: Transaction;
-  statsPerCategory: CategoryToTotalAmount;
   totalAmount: number;
   averageAmount: number;
   transactions: Transaction[];
 };
+
+export type CategoryStats = { [category: string]: TransactionsStats };

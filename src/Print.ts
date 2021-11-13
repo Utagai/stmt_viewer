@@ -19,20 +19,23 @@ import { CategoryStats, TransactionsStats } from './Stats';
 //
 // And, for readability, we'd like to separate these sections with some kind of
 // very visible separator.
-export default function print(stats: TransactionsStats) {
+export default function print([stats, categoryStats]: [
+  TransactionsStats,
+  CategoryStats,
+]) {
   // All the transactions will be printed at the end instead of now.
   // TODO: The comment above is false.
   printStats('All Transactions', stats);
 
-  Object.keys(stats.statsPerCategory).forEach((category) => {
-    printStats(category, stats.statsPerCategory[category]);
+  Object.keys(categoryStats).forEach((category) => {
+    printStats(category, categoryStats[category]);
   });
 }
 
 // Prints out a subset of the category stats.
 // TODO: Update this comment and maybe add note about categoryStats being a
 // subste of txnsStats...
-function printStats(header: string, stats: CategoryStats) {
+function printStats(header: string, stats: TransactionsStats) {
   printTopLevelSeparator(header);
   alignedPrint(
     [

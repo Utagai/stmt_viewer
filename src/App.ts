@@ -24,8 +24,8 @@ function main() {
   const pathToPotentialCSVFile = getFilepath();
   const processedTxns = parseTxns(pathToPotentialCSVFile);
   const sanitizedTxns = sanitize(processedTxns);
-  const txnsStats = summarize(sanitizedTxns);
-  print(txnsStats);
+  const stats = summarize(sanitizedTxns);
+  print(stats);
 }
 
 main();
