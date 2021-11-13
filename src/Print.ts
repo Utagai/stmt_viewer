@@ -23,8 +23,6 @@ export default function print([stats, categoryStats]: [
   TransactionsStats,
   CategoryStats,
 ]) {
-  // All the transactions will be printed at the end instead of now.
-  // TODO: The comment above is false.
   printStats('All Transactions', stats);
 
   Object.keys(categoryStats).forEach((category) => {
@@ -32,9 +30,7 @@ export default function print([stats, categoryStats]: [
   });
 }
 
-// Prints out a subset of the category stats.
-// TODO: Update this comment and maybe add note about categoryStats being a
-// subste of txnsStats...
+// Prints out the stats in a human-readable format. See docs for print().
 function printStats(header: string, stats: TransactionsStats) {
   printTopLevelSeparator(header);
   alignedPrint(
