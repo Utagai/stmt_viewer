@@ -72,7 +72,6 @@ export function summarizeCategory(txns: Transaction[]): CategoryStats {
   // passed into this program are so small that performance is negligible (the
   // CSVs I have for my card transactions could literally fit entirely into my
   // CPU's L1 cache (AMD Ryzen 3700x)).
-  // TODO: We should sort in descending order for convenience.
   const sortedTxns = txns.sort((t1, t2) => {
     if (t1.amount > t2.amount) {
       return -1;
@@ -111,49 +110,32 @@ export function summarize(txns: Transaction[]): TransactionsStats {
   // passed into this program are so small that performance is negligible (the
   // CSVs I have for my card transactions could literally fit entirely into my
   // CPU's L1 cache (AMD Ryzen 3700x)).
-  const sortedTxns = txns.sort((t1, t2) => {
-    if (t1.amount > t2.amount) {
-      return -1;
-    }
-
-    if (t1.amount < t2.amount) {
-      return 1;
-    }
-
-    return 0;
-  });
-
-  const minTxn = sortedTxns[0];
-  const maxTxn = sortedTxns[sortedTxns.length - 1];
-  const totalAmount = sortedTxns.reduce((sum, t) => sum + t.amount, 0);
-  const averageAmount = totalAmount / sortedTxns.length;
-  // TODO: The code above this comment can be de-duplicated.
+  const categoryStats = summarizeCategory(txns);
 
   // We want to group all the transactions into arrays of transactions for each
   // unique category. Then, we want to summarize the statistics per array of
   // transactions and return an object that maps each category to its summary
   // statistics.
-  const txnsPerCategory = sortedTxns.reduce((categoryToTotal, t) => {
-    if (t.category in categoryToTotal) {
-      return {
-        ...categoryToTotal,
-        [t.category]: categoryToTotal[t.category].concat([t]),
-      };
-    }
+  const txnsPerCategory = categoryStats.transactions.reduce(
+    (categoryToTotal, t) => {
+      if (t.category in categoryToTotal) {
+        return {
+          ...categoryToTotal,
+          [t.category]: categoryToTotal[t.category].concat([t]),
+        };
+      }
 
-    return { ...categoryToTotal, [t.category]: [t] };
-  }, {} as { [category: string]: Transaction[] });
+      return { ...categoryToTotal, [t.category]: [t] };
+    },
+    {} as { [category: string]: Transaction[] },
+  );
   const statsPerCategory: CategoryToTotalAmount = {};
   Object.keys(txnsPerCategory).forEach((key) => {
     statsPerCategory[key] = summarizeCategory(txnsPerCategory[key]);
   });
 
   return {
-    maxTxn,
-    minTxn,
+    ...categoryStats,
     statsPerCategory,
-    totalAmount,
-    averageAmount,
-    transactions: sortedTxns,
   };
 }
