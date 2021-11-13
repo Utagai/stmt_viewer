@@ -1,0 +1,58 @@
+
+> stmt_viewer@1.0.0 start /home/may/code/stmt_viewer
+> tsc && node ./dist/App.js "./src/__test__/testdata/E2E/test.csv"
+
+All Transactions ===============================================================
+	Total Amount:          		$243.70        	
+	Number of transactions:		5              	
+	Average Amount:        		$48.74         	
+	                       		               	
+	Largest transaction:   		               	
+	Description:           		DESCRIPTION 5  	
+	Amount:                		$102.48        	
+	Category:              		CATEGORY 3     	
+	Date                   		Fri Nov 05 2021	
+	-----
+	DESCRIPTION 5		$102.48		CATEGORY 3		Fri Nov 05 2021	
+	DESCRIPTION 3		$100.11		CATEGORY 1		Fri Nov 05 2021	
+	DESCRIPTION 4		$23.12 		CATEGORY 2		Fri Nov 05 2021	
+	DESCRIPTION 2		$10.49 		CATEGORY 2		Fri Nov 05 2021	
+	DESCRIPTION 1		$7.50  		CATEGORY 1		Sat Nov 06 2021	
+CATEGORY 3 =====================================================================
+	Total Amount:          		$102.48        	
+	Number of transactions:		1              	
+	Average Amount:        		$102.48        	
+	                       		               	
+	Largest transaction:   		               	
+	Description:           		DESCRIPTION 5  	
+	Amount:                		$102.48        	
+	Category:              		CATEGORY 3     	
+	Date                   		Fri Nov 05 2021	
+	-----
+	DESCRIPTION 5		$102.48		CATEGORY 3		Fri Nov 05 2021	
+CATEGORY 1 =====================================================================
+	Total Amount:          		$107.61        	
+	Number of transactions:		2              	
+	Average Amount:        		$53.81         	
+	                       		               	
+	Largest transaction:   		               	
+	Description:           		DESCRIPTION 3  	
+	Amount:                		$100.11        	
+	Category:              		CATEGORY 1     	
+	Date                   		Fri Nov 05 2021	
+	-----
+	DESCRIPTION 3		$100.11		CATEGORY 1		Fri Nov 05 2021	
+	DESCRIPTION 1		$7.50  		CATEGORY 1		Sat Nov 06 2021	
+CATEGORY 2 =====================================================================
+	Total Amount:          		$33.61         	
+	Number of transactions:		2              	
+	Average Amount:        		$16.81         	
+	                       		               	
+	Largest transaction:   		               	
+	Description:           		DESCRIPTION 4  	
+	Amount:                		$23.12         	
+	Category:              		CATEGORY 2     	
+	Date                   		Fri Nov 05 2021	
+	-----
+	DESCRIPTION 4		$23.12		CATEGORY 2		Fri Nov 05 2021	
+	DESCRIPTION 2		$10.49		CATEGORY 2		Fri Nov 05 2021	
