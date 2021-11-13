@@ -1,6 +1,6 @@
-import { stdout } from 'process';
+#!/usr/bin/env node
 
-import { argv } from 'process';
+import { argv, stdout } from 'process';
 
 import { parseTxns } from './Transaction';
 import { sanitize, summarize } from './ProcessTransactions';
