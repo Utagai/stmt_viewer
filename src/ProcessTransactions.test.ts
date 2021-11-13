@@ -1,7 +1,13 @@
 import { Transaction } from './Transaction';
-import { sanitize } from './ProcessTransactions';
+import {
+  sanitize,
+  categoryRemaps,
+  subscriptionDescriptions,
+} from './ProcessTransactions';
 
 class TxnBuilder {
+  static defaultAmount: number = -1;
+
   txn: Transaction;
 
   constructor() {
@@ -14,36 +20,36 @@ class TxnBuilder {
       // This is because because I'm _owing_ the money... we only _print_
       // positive numbers because the processing inverts the sign for
       // readability/convenience.
-      amount: -1,
+      amount: TxnBuilder.defaultAmount,
     };
   }
 
-  setTransactionDate(txnDate: Date): TxnBuilder {
+  transactionDate(txnDate: Date): TxnBuilder {
     this.txn.transactionDate = txnDate;
     return this;
   }
 
-  setDescription(desc: string): TxnBuilder {
+  description(desc: string): TxnBuilder {
     this.txn.description = desc;
     return this;
   }
 
-  setCategory(cat: string): TxnBuilder {
+  category(cat: string): TxnBuilder {
     this.txn.category = cat;
     return this;
   }
 
-  setType(typ: string): TxnBuilder {
+  type(typ: string): TxnBuilder {
     this.txn.type = typ;
     return this;
   }
 
-  setAmount(amt: number): TxnBuilder {
+  amount(amt: number): TxnBuilder {
     this.txn.amount = amt;
     return this;
   }
 
-  preprocessed(): Transaction {
+  unprocessed(): Transaction {
     return this.txn;
   }
 
@@ -56,16 +62,75 @@ class TxnBuilder {
   }
 }
 
-describe('sanitizing transactions', () => {
+describe('transaction sanitization', () => {
   test('removes payment type transactions', () => {
     const input = [
-      new TxnBuilder().setType('Payment').preprocessed(),
-      new TxnBuilder().setType('Not a Payment').preprocessed(),
+      new TxnBuilder().type('Payment').unprocessed(),
+      new TxnBuilder().type('Not a Payment').unprocessed(),
     ];
     // Expect only the non-payment to be returned.
-    const expectedOutput = [
-      new TxnBuilder().setType('Not a Payment').processed(),
-    ];
+    const expectedOutput = [new TxnBuilder().type('Not a Payment').processed()];
     expect(sanitize(input)).toEqual(expectedOutput);
+  });
+
+  test('negates amount to a positive value', () => {
+    const input = [new TxnBuilder().unprocessed()];
+    const actualOutput = sanitize(input);
+    expect(actualOutput).toHaveLength(1);
+    // We expect the _negation_.
+    expect(actualOutput[0].amount).toEqual(-TxnBuilder.defaultAmount);
+  });
+
+  function unzipTxns(
+    txns: [Transaction, Transaction][],
+  ): [Transaction[], Transaction[]] {
+    return txns.reduce(
+      (allInputsAndAllOutputs, inputAndOutput) => {
+        allInputsAndAllOutputs[0].push(inputAndOutput[0]);
+        allInputsAndAllOutputs[1].push(inputAndOutput[1]);
+        return allInputsAndAllOutputs;
+      },
+      [[], []] as [Transaction[], Transaction[]],
+    );
+  }
+
+  test('converts certain categories', () => {
+    const [inputTxns, expectedOutputTxns] = unzipTxns(
+      // Goes from:
+      // { [oldCategory: string]: string } -> [Transaction, Transaction][].
+      // A map of category remaps -> An array of tuples of input & expected
+      // output transactions.
+      Object.keys(categoryRemaps).map((oldCategory) => {
+        const inputTxn = new TxnBuilder().category(oldCategory).unprocessed();
+        const outputTxn = new TxnBuilder()
+          .category(categoryRemaps[oldCategory])
+          .processed();
+        return [inputTxn, outputTxn];
+      }),
+    );
+    expect(sanitize(inputTxns)).toEqual(expectedOutputTxns);
+  });
+
+  test('converts certain known subscription descriptions to the correct category', () => {
+    const [inputTxns, expectedOutputTxns] = unzipTxns(
+      // Goes from:
+      // string[] -> [Transaction, Transaction][].
+      // A map of known subscription service transaction descriptions -> An
+      // array of tuples of input & expected output transactions.
+      subscriptionDescriptions
+        // For each re-mapped category, create a tuple of the input that triggers
+        // the remap and an output that we will expect.
+        .map((subscriptionDesc) => {
+          const inputTxn = new TxnBuilder()
+            .description(subscriptionDesc)
+            .unprocessed();
+          const outputTxn = new TxnBuilder()
+            .description(subscriptionDesc)
+            .category('Bills')
+            .processed();
+          return [inputTxn, outputTxn];
+        }),
+    );
+    expect(sanitize(inputTxns)).toEqual(expectedOutputTxns);
   });
 });
