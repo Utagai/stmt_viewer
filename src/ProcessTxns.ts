@@ -71,11 +71,11 @@ export function summarizeCategory(txns: Transaction[]): CategoryStats {
   // TODO: We should sort in descending order for convenience.
   const sortedTxns = txns.sort((t1, t2) => {
     if (t1.amount > t2.amount) {
-      return 1;
+      return -1;
     }
 
     if (t1.amount < t2.amount) {
-      return -1;
+      return 1;
     }
 
     return 0;
@@ -109,11 +109,11 @@ export function summarize(txns: Transaction[]): TxnsStats {
   // CPU's L1 cache (AMD Ryzen 3700x)).
   const sortedTxns = txns.sort((t1, t2) => {
     if (t1.amount > t2.amount) {
-      return 1;
+      return -1;
     }
 
     if (t1.amount < t2.amount) {
-      return -1;
+      return 1;
     }
 
     return 0;
