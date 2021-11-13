@@ -1,6 +1,7 @@
 import { Writable } from 'stream';
 
 import { format } from 'date-fns';
+import chalk from 'chalk';
 
 import { CategoryStats, TransactionsStats } from './Stats';
 
@@ -36,15 +37,30 @@ function printStats(out: Writable, header: string, stats: TransactionsStats) {
   alignedPrint(
     out,
     [
-      ['Total Amount:', amountToDollarString(stats.totalAmount)],
-      ['Number of transactions:', stats.transactions.length.toString()],
-      ['Average Amount:', amountToDollarString(stats.averageAmount)],
+      [
+        chalk.underline('Total Amount:'),
+        chalk.magentaBright(amountToDollarString(stats.totalAmount)),
+      ],
+      [
+        chalk.underline('Number of transactions:'),
+        chalk.dim.magentaBright(stats.transactions.length.toString()),
+      ],
+      [
+        chalk.underline('Average Amount:'),
+        chalk.dim.magentaBright(amountToDollarString(stats.averageAmount)),
+      ],
       ['', ''], // Empty line for spacing.
-      ['Largest transaction:', ''],
-      ['Description:', stats.maxTxn.description],
-      ['Amount:', amountToDollarString(stats.maxTxn.amount)],
-      ['Category:', stats.maxTxn.category],
-      ['Date', dateToString(stats.maxTxn.transactionDate)],
+      [chalk.bgGray('Largest transaction:'), ''],
+      [
+        chalk.underline('Amount:'),
+        chalk.magentaBright(amountToDollarString(stats.maxTxn.amount)),
+      ],
+      [chalk.underline('Description:'), chalk.green(stats.maxTxn.description)],
+      [chalk.underline('Category:'), chalk.green(stats.maxTxn.category)],
+      [
+        chalk.underline('Date'),
+        chalk.green(dateToString(stats.maxTxn.transactionDate)),
+      ],
     ],
     1,
   );
@@ -54,10 +70,10 @@ function printStats(out: Writable, header: string, stats: TransactionsStats) {
   alignedPrint(
     out,
     stats.transactions.map((txn) => [
-      txn.description,
-      amountToDollarString(txn.amount),
-      txn.category,
-      dateToString(txn.transactionDate),
+      chalk.dim.green(txn.description),
+      chalk.dim.magentaBright(amountToDollarString(txn.amount)),
+      chalk.dim.green(txn.category),
+      chalk.dim.green(dateToString(txn.transactionDate)),
     ]),
     1,
   );
@@ -67,9 +83,9 @@ function printStats(out: Writable, header: string, stats: TransactionsStats) {
 /// Utility helper functions for the display format.
 ///
 
-const topLevelSeparatorWidth = 80;
-const bottomLevelSeparatorWidth = 5;
-const bottomLevelSeparator = '-'.repeat(bottomLevelSeparatorWidth);
+const topLevelSeparatorWidth = 100;
+const bottomLevelSeparatorWidth = 50;
+const bottomLevelSeparator = '─'.repeat(bottomLevelSeparatorWidth);
 
 // alignedPrint prints a 2D array of strings referring to multiple lines with
 // distinct pieces. It prints these lines such that for the nth line, the ith
@@ -124,16 +140,16 @@ function printTopLevelSeparator(out: Writable, header: string) {
   // Add a space to the header because otherwise it'll look kinda of bad.
   // Adding it now and using paddedHeader in the rest of the function lets us
   // avoid having to add in random/ugly -1/+1's.
-  const paddedHeader = `${header} `;
+  const paddedHeader = `${chalk.underline(header)} `;
   if (paddedHeader.length >= topLevelSeparatorWidth) {
     throw Error(
       `header with padding cannot be longer than the separator width (${topLevelSeparatorWidth})`,
     );
   }
-  const topLevelSeparator = '='.repeat(
+  const topLevelSeparator = ' '.repeat(
     topLevelSeparatorWidth - paddedHeader.length,
   );
-  out.write(`${paddedHeader}${topLevelSeparator}\n`);
+  out.write(chalk.bgGray(`${paddedHeader}${topLevelSeparator}\n`));
 }
 
 // Prints a separator for use separating _within_ sections. These are always
@@ -143,11 +159,11 @@ function printBottomLevelSeparator(out: Writable) {
   out.write(`\t${bottomLevelSeparator}\n`);
 }
 
-function dateToString(d: Date) {
+function dateToString(d: Date): string {
   return format(d, 'E MMM dd RRRR');
 }
 
-function amountToDollarString(amount: number) {
+function amountToDollarString(amount: number): string {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
