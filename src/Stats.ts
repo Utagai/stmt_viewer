@@ -5,7 +5,6 @@ import { Transaction } from './Transaction';
 // TODO: I think we don't need the minimum transaction, but we may want median.
 export type TransactionsStats = {
   maxTxn: Transaction;
-  minTxn: Transaction;
   totalAmount: number;
   averageAmount: number;
   transactions: Transaction[];

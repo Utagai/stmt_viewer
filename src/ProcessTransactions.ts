@@ -85,14 +85,12 @@ function summarizeTransactions(txns: Transaction[]): TransactionsStats {
   // below, but given how some of these involve non-trivial calculations, I
   // prefer to keep them separate for readability, and the rest follow for
   // consistency.
-  const minTxn = sortedTxns[0];
-  const maxTxn = sortedTxns[sortedTxns.length - 1];
+  const maxTxn = sortedTxns[0];
   const totalAmount = sortedTxns.reduce((sum, t) => sum + t.amount, 0);
   const averageAmount = totalAmount / sortedTxns.length;
 
   return {
     maxTxn,
-    minTxn,
     totalAmount,
     averageAmount,
     transactions: sortedTxns,
