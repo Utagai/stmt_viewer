@@ -1,7 +1,7 @@
 import { argv } from 'process';
 
 import { parseTxns } from './Transaction';
-import { sanitize, summarize } from './ProcessTxns';
+import { sanitize, summarize } from './ProcessTransactions';
 import print from './Print';
 
 function getFilepath(): string {
