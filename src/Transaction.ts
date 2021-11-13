@@ -43,13 +43,6 @@ export function parseTxns(csvFilepath: string): Transaction[] {
   const unparsedFileContents = readFileSync(csvFilepath, 'utf8');
   const rawTxns: rawTransaction[] = parse(unparsedFileContents, {
     cast: (value, context) => {
-      // Unfortunately we have to do this for cases where we have descriptions
-      // of the form (\w )+\d+. Not sure why, because if we don't csv-parse
-      // interprets it as a date. Don't ask.
-      if (context.column === 'Description') {
-        return value.toString();
-      }
-
       // Of course, after we implement a custom cast function, returning just
       // the value turns out _actual_ dates into strings. So here we are.
       if (
@@ -63,6 +56,7 @@ export function parseTxns(csvFilepath: string): Transaction[] {
         return parseFloat(value);
       }
 
+      // The rest of our values can be interpreted as strings.
       return value;
     },
     cast_date: true,
