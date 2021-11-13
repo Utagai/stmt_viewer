@@ -59,7 +59,7 @@ export function sanitize(txns: Transaction[]): Transaction[] {
 function summarizeTransactions(txns: Transaction[]): TransactionsStats {
   if (txns.length === 0) {
     // This whole program exists to summarize and report transactions... if we
-    // don't have any, why are we ever here?
+    // don't have any, why are we even here?
     throw Error('no transactions to summarize');
   }
   // The code in this function prioritizes simplicity and readability over
@@ -81,10 +81,6 @@ function summarizeTransactions(txns: Transaction[]): TransactionsStats {
     return 0;
   });
 
-  // We could inline these variable assignments into the stats object creation
-  // below, but given how some of these involve non-trivial calculations, I
-  // prefer to keep them separate for readability, and the rest follow for
-  // consistency.
   const maxTxn = sortedTxns[0];
   const totalAmount = sortedTxns.reduce((sum, t) => sum + t.amount, 0);
   const averageAmount = totalAmount / sortedTxns.length;
@@ -100,13 +96,6 @@ function summarizeTransactions(txns: Transaction[]): TransactionsStats {
 export function summarize(
   txns: Transaction[],
 ): [TransactionsStats, CategoryStats] {
-  // The code in this function prioritizes simplicity and readability over
-  // performance, often computing values that could have been computed in a
-  // single loop, over multiple ones via calls to e.g. `reduce()`. This is an
-  // acceptable tradeoff because the sizes of statement CSVs that will ever be
-  // passed into this program are so small that performance is negligible (the
-  // CSVs I have for my card transactions could literally fit entirely into my
-  // CPU's L1 cache (AMD Ryzen 3700x)).
   const stats = summarizeTransactions(txns);
 
   // We want to group all the transactions into arrays of transactions for each
