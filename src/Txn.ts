@@ -22,10 +22,8 @@ type unprocessedTxn = {
 // * Gets rid of columns in the CSV we do not care about (e.g. Memo).
 //
 // It is otherwise the same thing.
-// TODO: remove postDate.
 type processedTxn = {
   transactionDate: Date;
-  postDate: Date;
   description: string;
   category: string;
   type: string;
@@ -40,7 +38,6 @@ export type Txn = processedTxn;
 function processTxn(unprocessed: unprocessedTxn): processedTxn {
   return {
     transactionDate: unprocessed['Transaction Date'],
-    postDate: unprocessed['Post Date'],
     description: unprocessed.Description,
     category: unprocessed.Category,
     type: unprocessed.Type,
