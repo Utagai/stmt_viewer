@@ -1,7 +1,7 @@
-import { Txn } from './Txn';
+import { Transaction } from './Txn';
 import { CategoryStats, CategoryToTotalAmount, TxnsStats } from './Stats';
 
-export function sanitize(txns: Txn[]): Txn[] {
+export function sanitize(txns: Transaction[]): Transaction[] {
   return (
     txns
       // Remove payments which aren't purchases but me paying off balances, etc.
@@ -60,7 +60,7 @@ export function sanitize(txns: Txn[]): Txn[] {
   );
 }
 
-export function summarizeCategory(txns: Txn[]): CategoryStats {
+export function summarizeCategory(txns: Transaction[]): CategoryStats {
   // The code in this function prioritizes simplicity and readability over
   // performance, often computing values that could have been computed in a
   // single loop, over multiple ones via calls to e.g. `reduce()`. This is an
@@ -99,7 +99,7 @@ export function summarizeCategory(txns: Txn[]): CategoryStats {
   };
 }
 
-export function summarize(txns: Txn[]): TxnsStats {
+export function summarize(txns: Transaction[]): TxnsStats {
   // The code in this function prioritizes simplicity and readability over
   // performance, often computing values that could have been computed in a
   // single loop, over multiple ones via calls to e.g. `reduce()`. This is an
@@ -138,7 +138,7 @@ export function summarize(txns: Txn[]): TxnsStats {
     }
 
     return { ...categoryToTotal, [t.category]: [t] };
-  }, {} as { [category: string]: Txn[] });
+  }, {} as { [category: string]: Transaction[] });
   const statsPerCategory: CategoryToTotalAmount = {};
   Object.keys(txnsPerCategory).forEach((key) => {
     statsPerCategory[key] = summarizeCategory(txnsPerCategory[key]);

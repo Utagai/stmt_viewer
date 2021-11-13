@@ -1,4 +1,4 @@
-import { Txn } from './Txn';
+import { Transaction } from './Txn';
 
 // categoryStats captures statistics for one particular category. As a result,
 // it stores no information about categories, since it only only works on
@@ -7,11 +7,11 @@ import { Txn } from './Txn';
 // array of transactions, _ignoring_ category.
 // TODO: I think we don't need the minimum txn, but we may want median.
 export type CategoryStats = {
-  maxTxn: Txn;
-  minTxn: Txn;
+  maxTxn: Transaction;
+  minTxn: Transaction;
   totalAmount: number;
   averageAmount: number;
-  txns: Txn[];
+  txns: Transaction[];
 };
 
 export type CategoryToTotalAmount = { [category: string]: CategoryStats };
@@ -20,10 +20,10 @@ export type CategoryToTotalAmount = { [category: string]: CategoryStats };
 // categoryStats to give a more in-depth view into transactions of a given
 // category.
 export type TxnsStats = {
-  maxTxn: Txn;
-  minTxn: Txn;
+  maxTxn: Transaction;
+  minTxn: Transaction;
   statsPerCategory: CategoryToTotalAmount;
   totalAmount: number;
   averageAmount: number;
-  txns: Txn[];
+  txns: Transaction[];
 };

@@ -32,8 +32,7 @@ type processedTxn = {
 
 // Txn is a shorthand alias for a processed transaction. Consumers of this
 // module do not need to know about unprocessed vs. processed transactions.
-// TODO: Probably better to just avoid the abbreviation and prefer 'Transaction'.
-export type Txn = processedTxn;
+export type Transaction = processedTxn;
 
 function processTxn(unprocessed: unprocessedTxn): processedTxn {
   return {
@@ -45,7 +44,7 @@ function processTxn(unprocessed: unprocessedTxn): processedTxn {
   };
 }
 
-export function parseTxns(csvFilepath: string): Txn[] {
+export function parseTxns(csvFilepath: string): Transaction[] {
   const unparsedFileContents = readFileSync(csvFilepath, 'utf8');
   const rows: unprocessedTxn[] = parse(unparsedFileContents, {
     cast: (value, context) => {
