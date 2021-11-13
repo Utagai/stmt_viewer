@@ -38,7 +38,7 @@ function printStats(header: string, stats: TransactionsStats) {
       ['Total Amount:', amountToDollarString(stats.totalAmount)],
       ['Number of transactions:', stats.transactions.length.toString()],
       ['Average Amount:', amountToDollarString(stats.averageAmount)],
-      ['', ''], // Empty space.
+      ['', ''], // Empty line for spacing.
       ['Largest transaction:', ''],
       ['Description:', stats.maxTxn.description],
       ['Amount:', amountToDollarString(stats.maxTxn.amount)],
@@ -49,6 +49,7 @@ function printStats(header: string, stats: TransactionsStats) {
   );
 
   printBottomLevelSeparator();
+
   alignedPrint(
     stats.transactions.map((txn) => [
       txn.description,
@@ -63,6 +64,10 @@ function printStats(header: string, stats: TransactionsStats) {
 ///
 /// Utility helper functions for the display format.
 ///
+
+const topLevelSeparatorWidth = 80;
+const bottomLevelSeparatorWidth = 5;
+const bottomLevelSeparator = '-'.repeat(bottomLevelSeparatorWidth);
 
 // alignedPrint prints a 2D array of strings referring to multiple lines with
 // distinct pieces. It prints these lines such that for the nth line, the ith
@@ -110,30 +115,30 @@ function alignedPrint(lines: string[][], indent: number) {
   });
 }
 
-const sectionSeparatorWidth = 80;
-
 // Prints a separator for use in separating sections. Separators are labeled
-// with a header.
+// with a header. These are always not indented since they separate sections
+// themselves.
 function printTopLevelSeparator(header: string) {
   // Add a space to the header because otherwise it'll look kinda of bad.
   // Adding it now and using paddedHeader in the rest of the function lets us
   // avoid having to add in random/ugly -1/+1's.
   const paddedHeader = `${header} `;
-  if (paddedHeader.length >= sectionSeparatorWidth) {
+  if (paddedHeader.length >= topLevelSeparatorWidth) {
     throw Error(
-      `header with padding cannot be longer than the separator width (${sectionSeparatorWidth})`,
+      `header with padding cannot be longer than the separator width (${topLevelSeparatorWidth})`,
     );
   }
-  const sectionSeparator = '='.repeat(
-    sectionSeparatorWidth - paddedHeader.length,
+  const topLevelSeparator = '='.repeat(
+    topLevelSeparatorWidth - paddedHeader.length,
   );
-  stdout.write(`${paddedHeader}${sectionSeparator}\n`);
+  stdout.write(`${paddedHeader}${topLevelSeparator}\n`);
 }
 
-// Prints a separator for use in separator parts of a section.
+// Prints a separator for use separating _within_ sections. These are always
+// indented once to indicate that it is separating within the section, not
+// separating between sections themselves.
 function printBottomLevelSeparator() {
-  const sectionSeparator = '-'.repeat(5);
-  stdout.write(`\t${sectionSeparator}\n`);
+  stdout.write(`\t${bottomLevelSeparator}\n`);
 }
 
 function dateToString(d: Date) {
