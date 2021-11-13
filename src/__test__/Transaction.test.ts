@@ -6,7 +6,7 @@ import TxnBuilder from './TxnBuilder';
 
 describe('transaction parsing', () => {
   test('can parse csv', () => {
-    const txns = parseTxns('./src/__test__/testdata/test.csv');
+    const txns = parseTxns('./src/__test__/testdata/Transaction/test.csv');
     expect(txns).toEqual([
       new TxnBuilder()
         .transactionDate(parse('11/06/2021', 'MM/dd/yyyy', new Date()))
