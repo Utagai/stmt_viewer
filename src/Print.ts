@@ -1,4 +1,4 @@
-import { stdout } from 'process';
+import { Writable } from 'stream';
 
 import { format } from 'date-fns';
 
@@ -19,21 +19,22 @@ import { CategoryStats, TransactionsStats } from './Stats';
 //
 // And, for readability, we'd like to separate these sections with some kind of
 // very visible separator.
-export default function print([stats, categoryStats]: [
-  TransactionsStats,
-  CategoryStats,
-]) {
-  printStats('All Transactions', stats);
+export default function print(
+  out: Writable,
+  [stats, categoryStats]: [TransactionsStats, CategoryStats],
+) {
+  printStats(out, 'All Transactions', stats);
 
   Object.keys(categoryStats).forEach((category) => {
-    printStats(category, categoryStats[category]);
+    printStats(out, category, categoryStats[category]);
   });
 }
 
 // Prints out the stats in a human-readable format. See docs for print().
-function printStats(header: string, stats: TransactionsStats) {
-  printTopLevelSeparator(header);
+function printStats(out: Writable, header: string, stats: TransactionsStats) {
+  printTopLevelSeparator(out, header);
   alignedPrint(
+    out,
     [
       ['Total Amount:', amountToDollarString(stats.totalAmount)],
       ['Number of transactions:', stats.transactions.length.toString()],
@@ -48,9 +49,10 @@ function printStats(header: string, stats: TransactionsStats) {
     1,
   );
 
-  printBottomLevelSeparator();
+  printBottomLevelSeparator(out);
 
   alignedPrint(
+    out,
     stats.transactions.map((txn) => [
       txn.description,
       amountToDollarString(txn.amount),
@@ -91,7 +93,7 @@ const bottomLevelSeparator = '-'.repeat(bottomLevelSeparatorWidth);
 // SUPER FRESH                             2.39            Groceries               Wed Oct 28 2021
 // KEY FOOD MARKET PLACE                   2.17            Groceries               Wed Oct 20 2021
 // RITE AID 10574                          2.43            Convenience             Tue Oct 19 2021
-function alignedPrint(lines: string[][], indent: number) {
+function alignedPrint(out: Writable, lines: string[][], indent: number) {
   const maxLengthValuePerColumn = Array(lines[0].length).fill(0);
   // We iterate by _column_, so we want to loop for pieces[0].length, not
   // pieces.length.
@@ -109,16 +111,16 @@ function alignedPrint(lines: string[][], indent: number) {
       const paddedPiece = `${piece}${' '.repeat(
         maxLengthValuePerColumn[i] - piece.length,
       )}`;
-      stdout.write(`${'\t'.repeat(indent)}${paddedPiece}\t`);
+      out.write(`${'\t'.repeat(indent)}${paddedPiece}\t`);
     });
-    stdout.write('\n');
+    out.write('\n');
   });
 }
 
 // Prints a separator for use in separating sections. Separators are labeled
 // with a header. These are always not indented since they separate sections
 // themselves.
-function printTopLevelSeparator(header: string) {
+function printTopLevelSeparator(out: Writable, header: string) {
   // Add a space to the header because otherwise it'll look kinda of bad.
   // Adding it now and using paddedHeader in the rest of the function lets us
   // avoid having to add in random/ugly -1/+1's.
@@ -131,14 +133,14 @@ function printTopLevelSeparator(header: string) {
   const topLevelSeparator = '='.repeat(
     topLevelSeparatorWidth - paddedHeader.length,
   );
-  stdout.write(`${paddedHeader}${topLevelSeparator}\n`);
+  out.write(`${paddedHeader}${topLevelSeparator}\n`);
 }
 
 // Prints a separator for use separating _within_ sections. These are always
 // indented once to indicate that it is separating within the section, not
 // separating between sections themselves.
-function printBottomLevelSeparator() {
-  stdout.write(`\t${bottomLevelSeparator}\n`);
+function printBottomLevelSeparator(out: Writable) {
+  out.write(`\t${bottomLevelSeparator}\n`);
 }
 
 function dateToString(d: Date) {

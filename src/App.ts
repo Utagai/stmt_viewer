@@ -1,3 +1,5 @@
+import { stdout } from 'process';
+
 import { argv } from 'process';
 
 import { parseTxns } from './Transaction';
@@ -25,7 +27,7 @@ function main() {
   const processedTxns = parseTxns(pathToPotentialCSVFile);
   const sanitizedTxns = sanitize(processedTxns);
   const stats = summarize(sanitizedTxns);
-  print(stats);
+  print(stdout, stats);
 }
 
 main();
