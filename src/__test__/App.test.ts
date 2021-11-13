@@ -1,5 +1,5 @@
 import { exec } from 'child_process';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync } from 'fs';
 
 // Set the timeout for 10 seconds, since this test often takes about 5~ seconds.
 jest.setTimeout(10 * 1000)
@@ -17,7 +17,6 @@ describe('e2e', () => {
           const expectedOutput = readFileSync(
             './src/__test__/testdata/E2E/expected_output.txt',
           ).toString();
-          writeFileSync('output.txt', stdout);
           expect(stdout).toEqual(expectedOutput);
           done();
         } catch (err) {
