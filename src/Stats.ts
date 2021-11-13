@@ -5,25 +5,25 @@ import { Transaction } from './Txn';
 // transactions that are all from the same category.
 // TODO: This is false technically, because really this is a stats over any
 // array of transactions, _ignoring_ category.
-// TODO: I think we don't need the minimum txn, but we may want median.
+// TODO: I think we don't need the minimum transaction, but we may want median.
 export type CategoryStats = {
   maxTxn: Transaction;
   minTxn: Transaction;
   totalAmount: number;
   averageAmount: number;
-  txns: Transaction[];
+  transactions: Transaction[];
 };
 
 export type CategoryToTotalAmount = { [category: string]: CategoryStats };
 
-// txnsStats captures statistics for a given set of transactions. It relies on
-// categoryStats to give a more in-depth view into transactions of a given
-// category.
-export type TxnsStats = {
+// transactionsStats captures statistics for a given set of transactions. It
+// relies on categoryStats to give a more in-depth view into transactions of a
+// given category.
+export type TransactionsStats = {
   maxTxn: Transaction;
   minTxn: Transaction;
   statsPerCategory: CategoryToTotalAmount;
   totalAmount: number;
   averageAmount: number;
-  txns: Transaction[];
+  transactions: Transaction[];
 };

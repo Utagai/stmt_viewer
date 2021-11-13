@@ -2,7 +2,7 @@ import { stdout } from 'process';
 
 import { format } from 'date-fns';
 
-import { CategoryStats, TxnsStats } from './Stats';
+import { CategoryStats, TransactionsStats } from './Stats';
 
 // Prints out a report to the terminal.
 // In particular, we want to print out these things in the listed order:
@@ -19,7 +19,7 @@ import { CategoryStats, TxnsStats } from './Stats';
 //
 // And, for readability, we'd like to separate these sections with some kind of
 // very visible separator.
-export default function print(stats: TxnsStats) {
+export default function print(stats: TransactionsStats) {
   // All the transactions will be printed at the end instead of now.
   // TODO: The comment above is false.
   printStats('All Transactions', stats);
@@ -37,7 +37,7 @@ function printStats(header: string, stats: CategoryStats) {
   alignedPrint(
     [
       ['Total Amount:', amountToDollarString(stats.totalAmount)],
-      ['Number of transactions:', stats.txns.length.toString()],
+      ['Number of transactions:', stats.transactions.length.toString()],
       ['Average Amount:', amountToDollarString(stats.averageAmount)],
       ['', ''], // Empty space.
       ['Largest transaction:', ''],
@@ -51,7 +51,7 @@ function printStats(header: string, stats: CategoryStats) {
 
   printBottomLevelSeparator();
   alignedPrint(
-    stats.txns.map((txn) => [
+    stats.transactions.map((txn) => [
       txn.description,
       amountToDollarString(txn.amount),
       txn.category,

@@ -1,5 +1,9 @@
 import { Transaction } from './Txn';
-import { CategoryStats, CategoryToTotalAmount, TxnsStats } from './Stats';
+import {
+  CategoryStats,
+  CategoryToTotalAmount,
+  TransactionsStats,
+} from './Stats';
 
 export function sanitize(txns: Transaction[]): Transaction[] {
   return (
@@ -95,11 +99,11 @@ export function summarizeCategory(txns: Transaction[]): CategoryStats {
     minTxn,
     totalAmount,
     averageAmount,
-    txns: sortedTxns,
+    transactions: sortedTxns,
   };
 }
 
-export function summarize(txns: Transaction[]): TxnsStats {
+export function summarize(txns: Transaction[]): TransactionsStats {
   // The code in this function prioritizes simplicity and readability over
   // performance, often computing values that could have been computed in a
   // single loop, over multiple ones via calls to e.g. `reduce()`. This is an
@@ -150,6 +154,6 @@ export function summarize(txns: Transaction[]): TxnsStats {
     statsPerCategory,
     totalAmount,
     averageAmount,
-    txns: sortedTxns,
+    transactions: sortedTxns,
   };
 }
