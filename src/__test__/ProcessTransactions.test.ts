@@ -99,6 +99,37 @@ describe('transaction sanitization', () => {
     );
     expect(sanitize(basicTestCfg, inputTxns)).toEqual(expectedOutputTxns);
   });
+
+  test('converts unknown categories to "Other"', () => {
+    const inputTxns = [
+      new TxnBuilder().category('Unknown Category').unprocessed(),
+    ];
+    const expectedOutputTxns = [new TxnBuilder().category('Other').processed()];
+    expect(sanitize(basicTestCfg, inputTxns)).toEqual(expectedOutputTxns);
+  });
+
+  test('converts known categories to themselves', () => {
+    const inputTxns = [new TxnBuilder().category('Convenience').unprocessed()];
+    const expectedOutputTxns = [
+      new TxnBuilder().category('Convenience').processed(),
+    ];
+    expect(sanitize(basicTestCfg, inputTxns)).toEqual(expectedOutputTxns);
+  });
+
+  test('treats from field as a regular expression', () => {
+    const inputTxns = [
+      new TxnBuilder().description('INKDROP').unprocessed(), // Exact match.
+      new TxnBuilder().description('INKDROP is cool').unprocessed(), // Not exact match.
+    ];
+    const expectedOutputTxns = [
+      new TxnBuilder().description('INKDROP').category('Bills').processed(),
+      new TxnBuilder()
+        .description('INKDROP is cool')
+        .category('Bills')
+        .processed(),
+    ];
+    expect(sanitize(basicTestCfg, inputTxns)).toEqual(expectedOutputTxns);
+  });
 });
 
 describe('summarizing transactions', () => {
