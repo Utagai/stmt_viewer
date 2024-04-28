@@ -1,9 +1,9 @@
 import { Transaction } from './Transaction';
 import { TransactionsStats, CategoryStats } from './Stats';
-import { Config } from './Config';
+import { Config, categoryFromString } from './Config';
 
 function mapCategory(cfg: Config, txn: Transaction): Transaction {
-  const { categoryMappings } = cfg;
+  const { categories, categoryMappings, descriptionMappings } = cfg;
   const { category, description } = txn;
 
   // First, map the original category to the newly specified one:
@@ -12,12 +12,16 @@ function mapCategory(cfg: Config, txn: Transaction): Transaction {
     return { ...txn, category: catMapping.to };
   }
 
-  // Second, map the description to the newly specified category.
-  const descMapping = cfg.descriptionMappings.find(
-    (m) => m.from === description,
-  );
+  // Second, map the description to the newly specified category:
+  const descMapping = descriptionMappings.find((m) => m.from === description);
   if (descMapping) {
     return { ...txn, category: descMapping.to };
+  }
+
+  // Third, and finally, bucket all the categories that don't fall into one of
+  // the specified categories as "Other":
+  if (!categories.includes(categoryFromString(category))) {
+    return { ...txn, category: 'Other' };
   }
 
   return txn;
