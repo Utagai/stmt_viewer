@@ -1,27 +1,29 @@
 import { Transaction } from './Transaction';
 import { TransactionsStats, CategoryStats } from './Stats';
+import { Config } from './Config';
 
-// NOTE: This is obviously tailored to my needs. For example, if you own a
-// car, converting 'Gas' into 'Convenience' may be the last thing you
-// want. I don't own a car, so my 'Gas' expenditures are actually
-// (strangely) always trips to 7/11 for a late night snack.
-export const categoryRemaps: { [oldCategory: string]: string } = {
-  'Health & Wellness': 'Convenience',
-  Gas: 'Convenience',
-  'Bills & Utilities': 'Bills',
-  'Food & Drink': 'Restaurant',
-  Entertainment: 'Shopping',
-  'Gifts & Donations': 'Donations',
-  Home: 'Shopping',
-};
+function mapCategory(cfg: Config, txn: Transaction): Transaction {
+  const { categoryMappings } = cfg;
+  const { category, description } = txn;
 
-export const subscriptionDescriptions = [
-  'INKDROP',
-  'HELP.HBOMAX.COM',
-  'GITHUB',
-];
+  // First, map the original category to the newly specified one:
+  const catMapping = categoryMappings.find((m) => m.from === category);
+  if (catMapping) {
+    return { ...txn, category: catMapping.to };
+  }
 
-export function sanitize(txns: Transaction[]): Transaction[] {
+  // Second, map the description to the newly specified category.
+  const descMapping = cfg.descriptionMappings.find(
+    (m) => m.from === description,
+  );
+  if (descMapping) {
+    return { ...txn, category: descMapping.to };
+  }
+
+  return txn;
+}
+
+export function sanitize(cfg: Config, txns: Transaction[]): Transaction[] {
   return (
     // TODO: This is a great example of a place where proper function names will
     // do a better job at documenting this code than our comments.
@@ -35,24 +37,7 @@ export function sanitize(txns: Transaction[]): Transaction[] {
       }))
       // Convert certain categories to more readable versions, or merge some
       // together.
-      .map((txn) => {
-        const { category } = txn;
-        if (category in categoryRemaps) {
-          return { ...txn, category: categoryRemaps[category] };
-        }
-
-        return txn;
-      })
-      // Identify costs from my subscriptions and put them into the bills
-      // category, because not all the subscriptions I pay for set the category
-      // to Bills & Utilities.
-      .map((txn) => {
-        if (subscriptionDescriptions.includes(txn.description)) {
-          return { ...txn, category: 'Bills' };
-        }
-
-        return txn;
-      })
+      .map((txn) => mapCategory(cfg, txn))
   );
 }
 
