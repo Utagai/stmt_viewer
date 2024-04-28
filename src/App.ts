@@ -22,7 +22,6 @@ function getFilepaths(): [string, string] {
 function main() {
   const [pathToConfigFile, pathToPotentialCSVFile] = getFilepaths();
   const config = loadConfig(pathToConfigFile);
-  console.log(config);
   const processedTxns = parseTxns(pathToPotentialCSVFile);
   const sanitizedTxns = sanitize(config, processedTxns);
   const stats = summarize(sanitizedTxns);
