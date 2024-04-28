@@ -24,11 +24,15 @@ export function categoryFromString(
 }
 
 type CategoryMapping = {
+  // from is a regular expression that will be used to match against the
+  // original category.
   from: string;
   to: Category;
 };
 
 type DescriptionMapping = {
+  // from is a regular expression that will be used to match against the
+  // original description.
   from: string;
   to: Category;
 };
