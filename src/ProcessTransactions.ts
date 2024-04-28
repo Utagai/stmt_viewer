@@ -7,13 +7,17 @@ function mapCategory(cfg: Config, txn: Transaction): Transaction {
   const { category, description } = txn;
 
   // First, map the original category to the newly specified one:
-  const catMapping = categoryMappings.find((m) => m.from === category);
+  const catMapping = categoryMappings.find((m) =>
+    new RegExp(m.from).test(category),
+  );
   if (catMapping) {
     return { ...txn, category: catMapping.to };
   }
 
   // Second, map the description to the newly specified category:
-  const descMapping = descriptionMappings.find((m) => m.from === description);
+  const descMapping = descriptionMappings.find((m) =>
+    new RegExp(m.from).test(description),
+  );
   if (descMapping) {
     return { ...txn, category: descMapping.to };
   }
