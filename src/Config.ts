@@ -8,6 +8,21 @@ export type Category =
   | 'Shopping'
   | 'Donations';
 
+export function categoryFromString(
+  categoryString: string,
+): Category | undefined {
+  switch (categoryString) {
+    case 'Convenience':
+    case 'Bills':
+    case 'Restaurant':
+    case 'Shopping':
+    case 'Donations':
+      return categoryString;
+    default:
+      return undefined;
+  }
+}
+
 type CategoryMapping = {
   from: string;
   to: Category;
