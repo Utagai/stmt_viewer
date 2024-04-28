@@ -3,15 +3,17 @@ import YAML from 'yaml';
 
 export type Category = string;
 
+export const OtherCategory: Category = 'Other';
+
 // Description mappings take precedence over category mappings.
-type DescriptionMapping = {
+export type DescriptionMapping = {
   // from is a regular expression that will be used to match against the
   // original description.
   from: string;
   to: Category;
 };
 
-type CategoryMapping = {
+export type CategoryMapping = {
   // from is a regular expression that will be used to match against the
   // original category.
   from: string;

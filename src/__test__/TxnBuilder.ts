@@ -1,7 +1,8 @@
+import { OtherCategory } from '../Config';
 import { Transaction } from '../Transaction';
 
 export default class TxnBuilder {
-  static defaultCategory: string = 'default category';
+  static defaultCategory: string = OtherCategory;
 
   static defaultAmount: number = -1;
 

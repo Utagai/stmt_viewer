@@ -3,12 +3,30 @@ import { TransactionsStats } from '../Stats';
 
 import TxnBuilder from './TxnBuilder';
 
-import {
-  categoryRemaps,
-  sanitize,
-  subscriptionDescriptions,
-  summarize,
-} from '../ProcessTransactions';
+import { sanitize, summarize } from '../ProcessTransactions';
+import { Config, CategoryMapping, DescriptionMapping } from '../Config';
+
+const categoryMappings: CategoryMapping[] = [
+  { from: 'Health & Wellness', to: 'Convenience' },
+  { from: 'Gas', to: 'Convenience' },
+  { from: 'Bills & Utilities', to: 'Bills' },
+  { from: 'Food & Drink', to: 'Restaurant' },
+  { from: 'Entertainment', to: 'Shopping' },
+  { from: 'Gifts & Donations', to: 'Donations' },
+  { from: 'Home', to: 'Shopping' },
+];
+
+const descriptionMappings: DescriptionMapping[] = [
+  { from: 'INKDROP', to: 'Bills' },
+  { from: 'HELP.HBOMAX.COM', to: 'Bills' },
+  { from: 'GITHUB', to: 'Bills' },
+];
+
+const basicTestCfg: Config = {
+  categories: ['Convenience', 'Shopping', 'Bills', 'Restaurant', 'Donations'],
+  categoryMappings,
+  descriptionMappings,
+};
 
 describe('transaction sanitization', () => {
   test('removes payment type transactions', () => {
@@ -18,12 +36,12 @@ describe('transaction sanitization', () => {
     ];
     // Expect only the non-payment to be returned.
     const expectedOutput = [new TxnBuilder().type('Not a Payment').processed()];
-    expect(sanitize(input)).toEqual(expectedOutput);
+    expect(sanitize(basicTestCfg, input)).toEqual(expectedOutput);
   });
 
   test('negates amount to a positive value', () => {
     const input = [new TxnBuilder().unprocessed()];
-    const actualOutput = sanitize(input);
+    const actualOutput = sanitize(basicTestCfg, input);
     expect(actualOutput).toHaveLength(1);
     // We expect the _negation_.
     expect(actualOutput[0].amount).toEqual(-TxnBuilder.defaultAmount);
@@ -42,44 +60,44 @@ describe('transaction sanitization', () => {
     );
   }
 
-  test('converts certain categories', () => {
+  test('converts via category remap rules to the correct category', () => {
     const [inputTxns, expectedOutputTxns] = unzipTxns(
       // Goes from:
       // { [oldCategory: string]: string } -> [Transaction, Transaction][].
       // A map of category remaps -> An array of tuples of input & expected
       // output transactions.
-      Object.keys(categoryRemaps).map((oldCategory) => {
-        const inputTxn = new TxnBuilder().category(oldCategory).unprocessed();
-        const outputTxn = new TxnBuilder()
-          .category(categoryRemaps[oldCategory])
-          .processed();
+      categoryMappings.map((oldCategory) => {
+        const inputTxn = new TxnBuilder()
+          .category(oldCategory.from)
+          .unprocessed();
+        const outputTxn = new TxnBuilder().category(oldCategory.to).processed();
         return [inputTxn, outputTxn];
       }),
     );
-    expect(sanitize(inputTxns)).toEqual(expectedOutputTxns);
+    expect(sanitize(basicTestCfg, inputTxns)).toEqual(expectedOutputTxns);
   });
 
-  test('converts certain known subscription descriptions to the correct category', () => {
+  test('converts via subscription remap rules to the correct category', () => {
     const [inputTxns, expectedOutputTxns] = unzipTxns(
       // Goes from:
       // string[] -> [Transaction, Transaction][].
       // A map of known subscription service transaction descriptions -> An
       // array of tuples of input & expected output transactions.
-      subscriptionDescriptions
+      descriptionMappings
         // For each re-mapped category, create a tuple of the input that triggers
         // the remap and an output that we will expect.
         .map((subscriptionDesc) => {
           const inputTxn = new TxnBuilder()
-            .description(subscriptionDesc)
+            .description(subscriptionDesc.from)
             .unprocessed();
           const outputTxn = new TxnBuilder()
-            .description(subscriptionDesc)
+            .description(subscriptionDesc.from)
             .category('Bills')
             .processed();
           return [inputTxn, outputTxn];
         }),
     );
-    expect(sanitize(inputTxns)).toEqual(expectedOutputTxns);
+    expect(sanitize(basicTestCfg, inputTxns)).toEqual(expectedOutputTxns);
   });
 });
 

@@ -1,6 +1,6 @@
 import { Transaction } from './Transaction';
 import { TransactionsStats, CategoryStats } from './Stats';
-import { Config } from './Config';
+import { Config, OtherCategory } from './Config';
 
 function mapCategory(cfg: Config, txn: Transaction): Transaction {
   const { categories, categoryMappings, descriptionMappings } = cfg;
@@ -26,7 +26,7 @@ function mapCategory(cfg: Config, txn: Transaction): Transaction {
   // Third, and finally, bucket all the categories that don't fall into one of
   // the specified categories as "Other":
   if (!categories.includes(category)) {
-    return { ...txn, category: 'Other' };
+    return { ...txn, category: OtherCategory };
   }
 
   return txn;
