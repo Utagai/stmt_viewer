@@ -6,20 +6,21 @@ function mapCategory(cfg: Config, txn: Transaction): Transaction {
   const { categories, categoryMappings, descriptionMappings } = cfg;
   const { category, description } = txn;
 
-  // First, map the original category to the newly specified one:
-  const catMapping = categoryMappings.find((m) =>
-    new RegExp(m.from).test(category),
-  );
-  if (catMapping) {
-    return { ...txn, category: catMapping.to };
-  }
-
-  // Second, map the description to the newly specified category:
+  // First, map the description to the newly specified category:
+  // console.log(`descriptionMappings: ${JSON.stringify(descriptionMappings)}`);
   const descMapping = descriptionMappings.find((m) =>
     new RegExp(m.from).test(description),
   );
   if (descMapping) {
     return { ...txn, category: descMapping.to };
+  }
+
+  // Second, map the original category to the newly specified one:
+  const catMapping = categoryMappings.find((m) =>
+    new RegExp(m.from).test(category),
+  );
+  if (catMapping) {
+    return { ...txn, category: catMapping.to };
   }
 
   // Third, and finally, bucket all the categories that don't fall into one of

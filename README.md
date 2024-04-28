@@ -28,16 +28,17 @@ export type Config = {
 
 export type Category = string;
 
-type CategoryMapping = {
+// Description mappings take precedence over category mappings.
+type DescriptionMapping = {
   // from is a regular expression that will be used to match against the
-  // original category.
+  // original description.
   from: string;
   to: Category;
 };
 
-type DescriptionMapping = {
+type CategoryMapping = {
   // from is a regular expression that will be used to match against the
-  // original description.
+  // original category.
   from: string;
   to: Category;
 };
