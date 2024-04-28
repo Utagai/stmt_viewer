@@ -1,62 +1,62 @@
 
-> stmt_viewer@1.0.0 start /home/may/code/stmt_viewer
-> npm run build && node ./dist/App.js "./src/__test__/testdata/E2E/test.csv"
+> stmt_viewer@1.0.0 start
+> npm run build && node ./dist/App.js ./src/__test__/testdata/E2E/test.yml ./src/__test__/testdata/E2E/test.csv
 
 
-> stmt_viewer@1.0.0 build /home/may/code/stmt_viewer
+> stmt_viewer@1.0.0 build
 > esbuild src/App.ts --platform=node --bundle --outfile=dist/App.js
 
-[100m[4mAll Transactions[24m                                                                                                    [49m
-[100m[49m	[4mTotal Amount:[24m          		[95m$243.70[39m        	
-	[4mNumber of transactions:[24m		[2m[95m5[39m[22m     	
-	[4mAverage Amount:[24m        		[2m[95m$48.74[39m[22m	
-	                                		                         	
-	[100mLargest transaction:[49m 		                         	
-	[4mAmount:[24m                		[95m$102.48[39m        	
-	[4mDescription:[24m           		[32mDESCRIPTION 5[39m  	
-	[4mCategory:[24m              		[32mCATEGORY 3[39m     	
-	[4mDate[24m                   		[32mFri Nov 05 2021[39m	
+All Transactions                                                                                                    
+	Total Amount:          		$243.70        	
+	Number of transactions:		5              	
+	Average Amount:        		$48.74         	
+	                       		               	
+	Largest transaction:   		               	
+	Amount:                		$102.48        	
+	Description:           		DESCRIPTION 5  	
+	Category:              		CATEGORY 3     	
+	Date                   		Fri Nov 05 2021	
 	──────────────────────────────────────────────────
-	[2m[32mDESCRIPTION 5[39m[22m		[2m[95m$102.48[39m[22m		[2m[32mCATEGORY 3[39m[22m		[2m[32mFri Nov 05 2021[39m[22m	
-	[2m[32mDESCRIPTION 3[39m[22m		[2m[95m$100.11[39m[22m		[2m[32mCATEGORY 1[39m[22m		[2m[32mFri Nov 05 2021[39m[22m	
-	[2m[32mDESCRIPTION 4[39m[22m		[2m[95m$23.12[39m[22m 		[2m[32mCATEGORY 2[39m[22m		[2m[32mFri Nov 05 2021[39m[22m	
-	[2m[32mDESCRIPTION 2[39m[22m		[2m[95m$10.49[39m[22m 		[2m[32mCATEGORY 2[39m[22m		[2m[32mFri Nov 05 2021[39m[22m	
-	[2m[32mDESCRIPTION 1[39m[22m		[2m[95m$7.50[39m[22m  		[2m[32mCATEGORY 1[39m[22m		[2m[32mSat Nov 06 2021[39m[22m	
-[100m[4mCATEGORY 3[24m                                                                                                    [49m
-[100m[49m	[4mTotal Amount:[24m          		[95m$102.48[39m         	
-	[4mNumber of transactions:[24m		[2m[95m1[39m[22m      	
-	[4mAverage Amount:[24m        		[2m[95m$102.48[39m[22m	
-	                                		                          	
-	[100mLargest transaction:[49m 		                          	
-	[4mAmount:[24m                		[95m$102.48[39m         	
-	[4mDescription:[24m           		[32mDESCRIPTION 5[39m   	
-	[4mCategory:[24m              		[32mCATEGORY 3[39m      	
-	[4mDate[24m                   		[32mFri Nov 05 2021[39m 	
+	DESCRIPTION 5		$102.48		CATEGORY 3		Fri Nov 05 2021	
+	DESCRIPTION 3		$100.11		CATEGORY 1		Fri Nov 05 2021	
+	DESCRIPTION 4		$23.12 		CATEGORY 2		Fri Nov 05 2021	
+	DESCRIPTION 2		$10.49 		CATEGORY 2		Fri Nov 05 2021	
+	DESCRIPTION 1		$7.50  		CATEGORY 1		Sat Nov 06 2021	
+CATEGORY 3                                                                                                    
+	Total Amount:          		$102.48        	
+	Number of transactions:		1              	
+	Average Amount:        		$102.48        	
+	                       		               	
+	Largest transaction:   		               	
+	Amount:                		$102.48        	
+	Description:           		DESCRIPTION 5  	
+	Category:              		CATEGORY 3     	
+	Date                   		Fri Nov 05 2021	
 	──────────────────────────────────────────────────
-	[2m[32mDESCRIPTION 5[39m[22m		[2m[95m$102.48[39m[22m		[2m[32mCATEGORY 3[39m[22m		[2m[32mFri Nov 05 2021[39m[22m	
-[100m[4mCATEGORY 1[24m                                                                                                    [49m
-[100m[49m	[4mTotal Amount:[24m          		[95m$107.61[39m        	
-	[4mNumber of transactions:[24m		[2m[95m2[39m[22m     	
-	[4mAverage Amount:[24m        		[2m[95m$53.81[39m[22m	
-	                                		                         	
-	[100mLargest transaction:[49m 		                         	
-	[4mAmount:[24m                		[95m$100.11[39m        	
-	[4mDescription:[24m           		[32mDESCRIPTION 3[39m  	
-	[4mCategory:[24m              		[32mCATEGORY 1[39m     	
-	[4mDate[24m                   		[32mFri Nov 05 2021[39m	
+	DESCRIPTION 5		$102.48		CATEGORY 3		Fri Nov 05 2021	
+CATEGORY 1                                                                                                    
+	Total Amount:          		$107.61        	
+	Number of transactions:		2              	
+	Average Amount:        		$53.81         	
+	                       		               	
+	Largest transaction:   		               	
+	Amount:                		$100.11        	
+	Description:           		DESCRIPTION 3  	
+	Category:              		CATEGORY 1     	
+	Date                   		Fri Nov 05 2021	
 	──────────────────────────────────────────────────
-	[2m[32mDESCRIPTION 3[39m[22m		[2m[95m$100.11[39m[22m		[2m[32mCATEGORY 1[39m[22m		[2m[32mFri Nov 05 2021[39m[22m	
-	[2m[32mDESCRIPTION 1[39m[22m		[2m[95m$7.50[39m[22m  		[2m[32mCATEGORY 1[39m[22m		[2m[32mSat Nov 06 2021[39m[22m	
-[100m[4mCATEGORY 2[24m                                                                                                    [49m
-[100m[49m	[4mTotal Amount:[24m          		[95m$33.61[39m         	
-	[4mNumber of transactions:[24m		[2m[95m2[39m[22m     	
-	[4mAverage Amount:[24m        		[2m[95m$16.81[39m[22m	
-	                                		                         	
-	[100mLargest transaction:[49m 		                         	
-	[4mAmount:[24m                		[95m$23.12[39m         	
-	[4mDescription:[24m           		[32mDESCRIPTION 4[39m  	
-	[4mCategory:[24m              		[32mCATEGORY 2[39m     	
-	[4mDate[24m                   		[32mFri Nov 05 2021[39m	
+	DESCRIPTION 3		$100.11		CATEGORY 1		Fri Nov 05 2021	
+	DESCRIPTION 1		$7.50  		CATEGORY 1		Sat Nov 06 2021	
+CATEGORY 2                                                                                                    
+	Total Amount:          		$33.61         	
+	Number of transactions:		2              	
+	Average Amount:        		$16.81         	
+	                       		               	
+	Largest transaction:   		               	
+	Amount:                		$23.12         	
+	Description:           		DESCRIPTION 4  	
+	Category:              		CATEGORY 2     	
+	Date                   		Fri Nov 05 2021	
 	──────────────────────────────────────────────────
-	[2m[32mDESCRIPTION 4[39m[22m		[2m[95m$23.12[39m[22m		[2m[32mCATEGORY 2[39m[22m		[2m[32mFri Nov 05 2021[39m[22m	
-	[2m[32mDESCRIPTION 2[39m[22m		[2m[95m$10.49[39m[22m		[2m[32mCATEGORY 2[39m[22m		[2m[32mFri Nov 05 2021[39m[22m	
+	DESCRIPTION 4		$23.12		CATEGORY 2		Fri Nov 05 2021	
+	DESCRIPTION 2		$10.49		CATEGORY 2		Fri Nov 05 2021	
