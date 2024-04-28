@@ -1,0 +1,17 @@
+# Configure transaction category mappings and specific description mappings.
+
+# Category listing (this controls the output):
+categories:
+  - CATEGORY A
+  - CATEGORY B
+  - CATEGORY C
+
+# Specific description mappings:
+descriptionMappings:
+  - from: 'DESCRIPTION REMAP'
+    to: CATEGORY B
+
+# Transaction category mappings:
+categoryMappings:
+  - from: 'CATEGORY REMAP'
+    to: 'CATEGORY A'
