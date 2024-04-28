@@ -1,27 +1,7 @@
 import fs from 'fs';
 import YAML from 'yaml';
 
-export type Category =
-  | 'Convenience'
-  | 'Bills'
-  | 'Restaurant'
-  | 'Shopping'
-  | 'Donations';
-
-export function categoryFromString(
-  categoryString: string,
-): Category | undefined {
-  switch (categoryString) {
-    case 'Convenience':
-    case 'Bills':
-    case 'Restaurant':
-    case 'Shopping':
-    case 'Donations':
-      return categoryString;
-    default:
-      return undefined;
-  }
-}
+export type Category = string;
 
 type CategoryMapping = {
   // from is a regular expression that will be used to match against the
