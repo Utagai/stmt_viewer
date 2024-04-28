@@ -19,7 +19,8 @@ describe('e2e', () => {
           // color, but for some reason, it doesn't contain it. It used to
           // contain it when I first wrote the test, but now it doesn't. I'm not
           // sure why. I'll just remove the color from the expected output file
-          // for now.
+          // for now, especially because Print.test.ts should be testing this
+          // already.
           const expectedOutput = readFileSync(
             './src/__test__/testdata/E2E/expected_output.txt',
           ).toString();

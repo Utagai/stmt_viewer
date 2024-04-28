@@ -6,7 +6,7 @@ export default class TxnBuilder {
 
   static defaultAmount: number = -1;
 
-  static defaultDate: Date = new Date();
+  static defaultDate: Date = new Date('2021-11-13T00:00:00-05:00');
 
   txn: Transaction;
 
