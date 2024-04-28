@@ -24,7 +24,6 @@ describe('e2e', () => {
           const expectedOutput = readFileSync(
             './src/__test__/testdata/E2E/expected_output.txt',
           ).toString();
-          console.log(stdout);
           expect(stdout).toEqual(expectedOutput);
           done();
         } catch (err) {

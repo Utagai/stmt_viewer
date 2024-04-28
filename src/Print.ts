@@ -5,6 +5,21 @@ import chalk from 'chalk';
 
 import { CategoryStats, TransactionsStats } from './Stats';
 
+// NOTE: This is just so hacky. I hate it. I'm not even completely sure why this
+// happens.
+// The full story is that we discovered that when running the E2E tests by
+// themselves, we output no color because Chalk, for whatever reason, turns it
+// off.
+// When we run the test alongside all of our tests (e.g. just running `npm run
+// test`), we _do_ output color.
+// So what gives? I'm not sure. Some stuff I read suggests that Jest runs
+// differently when it runs a single test file vs. all of them, the latter
+// involving worker processes. Maybe their situation/TTY/etc is different?
+// Anyways, I chucked this stupid thing in to make sure we always output color.
+if (process.env.JEST_WORKER_ID) {
+  chalk.level = 3; // Level 3 means that all colors are enabled
+}
+
 // Prints out a report to the terminal.
 export default function print(
   out: Writable,
