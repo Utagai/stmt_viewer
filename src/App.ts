@@ -1,31 +1,30 @@
-#!/usr/bin/env node
-
 import { argv, stdout } from 'process';
-
 import { parseTxns } from './Transaction';
 import { sanitize, summarize } from './ProcessTransactions';
+import { loadConfig } from './Config';
 import print from './Print';
 
-function getFilepath(): string {
-  // We expect 2 arguments for the node invocation, and then one more for the
-  // filepath.
-  const NUM_EXPECTED_ARGS = 3;
+function getFilepaths(): [string, string] {
+  // We expect 3 arguments for the node invocation, the config file, and the filepath.
+  const NUM_EXPECTED_ARGS = 4;
 
   if (argv.length !== NUM_EXPECTED_ARGS) {
     throw Error(
-      `expected 1 argument for the filepath, but received ${
+      `expected 2 arguments for the config file and filepath, but received ${
         argv.length - NUM_EXPECTED_ARGS + 1
       } arguments`,
     );
   }
 
-  return argv[NUM_EXPECTED_ARGS - 1];
+  return [argv[NUM_EXPECTED_ARGS - 2], argv[NUM_EXPECTED_ARGS - 1]];
 }
 
 function main() {
-  const pathToPotentialCSVFile = getFilepath();
+  const [pathToConfigFile, pathToPotentialCSVFile] = getFilepaths();
+  const config = loadConfig(pathToConfigFile);
+  console.log(config);
   const processedTxns = parseTxns(pathToPotentialCSVFile);
-  const sanitizedTxns = sanitize(processedTxns);
+  const sanitizedTxns = sanitize(config, processedTxns);
   const stats = summarize(sanitizedTxns);
   print(stdout, stats);
 }
