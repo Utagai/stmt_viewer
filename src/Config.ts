@@ -31,5 +31,11 @@ export function loadConfig(configFilePath: string): Config {
   // Parse the YAML content
   const configData = YAML.parse(fileContents);
 
+  // Set default values for fields if they are undefined. Makes processing logic
+  // a simpler later on and helps avoid crashes.
+  configData.categories = configData.categories || [];
+  configData.categoryMappings = configData.categoryMappings || [];
+  configData.descriptionMappings = configData.descriptionMappings || [];
+
   return configData;
 }
